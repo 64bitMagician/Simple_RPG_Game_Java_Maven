@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.PIIIProjectGUI.controllers.MainMenuController">
+    <Button text="Open Your Inventory" onAction="#onInventory"/>
+    <Button text="Explore" onAction="#onExplore"/>
+    <Button text="Show Player Stats" onAction="#onShowStats"/>
+    <Button text="Retrieve Saved Inventory" onAction="#onRetrieveInventory"/>
+    <Button text="Save Inventory" onAction="#onSaveInventory"/>
+    <Button text="Exit" onAction="#onExit"/>
+</VBox>

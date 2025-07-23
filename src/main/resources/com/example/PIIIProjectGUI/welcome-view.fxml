@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER" spacing="10"
+      fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.WelcomeController">
+
+    <ImageView fx:id="welcomeImage" fitWidth="400" fitHeight="300" preserveRatio="true"/>
+</VBox>
