@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.loot;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
@@ -18,7 +19,7 @@ public class WeaponChest extends LootableArea {
     // Temporary Data
     List<Item> temporaryWeaponList = new ArrayList<Item>();
 
-    public WeaponChest(Inventory inventoryReference) {
+    public WeaponChest(InventoryController inventoryReference) {
         initializeChestWithRandomWeapon();
         this.loot.addAll(temporaryWeaponList);
         this.inventory = inventoryReference;

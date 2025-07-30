@@ -3,6 +3,12 @@ package com.example.PIIIProjectGUI.GUI.GUIControllers;
 import com.example.PIIIProjectGUI.GUI.utilities.GameState;
 import com.example.PIIIProjectGUI.app.Game;
 
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Club;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Fists;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
+import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +23,20 @@ public class CharacterCreationController {
 
     private Game game;
 
+    public static void createCharacter(String name) {
+        //Default Items
+        Weapon fists = new Fists();
+        Weapon startingWeapon = new Club();
+
+        GameState.character = new Character(name, 500, 1, startingWeapon);
+
+        GameState.inventory = new Inventory(GameState.character);
+        GameState.exploration = new Explore(GameState.character, GameState.inventory.inventoryController);
+
+        GameState.inventory.inventoryController.addItemToInventory(fists);
+        GameState.inventory.inventoryController.addItemToInventory(startingWeapon);
+    }
+
     @FXML
     public void onCreateCharacterButton(ActionEvent event) {
         String name = nameField.getText().trim();
@@ -28,7 +48,7 @@ public class CharacterCreationController {
 
         try {
             // Create Character
-            GameState.createCharacter(name);
+            createCharacter(name);
             // Transition to Main Menu Screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
             Scene scene = new Scene(loader.load());

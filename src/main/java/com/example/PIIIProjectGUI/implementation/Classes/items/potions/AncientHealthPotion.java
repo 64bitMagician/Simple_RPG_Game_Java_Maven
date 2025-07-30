@@ -11,7 +11,7 @@ public class AncientHealthPotion extends Potion {
         this.potionName = "Ancient Health Potion";
         this.potionItemQuality = 4;
         this.weight = 8.0f;
-        this.color = PotionColors.BLACK;
+        this.color = PotionRarityColors.ORANGE;
     }
 
     @Override

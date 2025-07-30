@@ -1,0 +1,318 @@
+package com.example.PIIIProjectGUI.GUI.GUIControllers;
+
+import com.example.PIIIProjectGUI.GUI.utilities.GameState;
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.implementation.interfaces.Item;
+import com.example.PIIIProjectGUI.inputoutput.InputDevice;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
+import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+public class InventoryController {
+    static Inventory inventory = GameState.inventory;
+
+    @FXML
+    private VBox itemsContainer; // This must match fx:id in your FXML
+
+    private Weapon getEquippedWeapon() {
+        return GameState.character.equippedWeapon;   // adapt to your API
+    }
+
+    // Logic & Data Methods
+
+    //The retreiveIndexOfItem(Item item) method returns
+    // the index of the object within the list,
+    // that maches the class type of
+    // the object that you are passing as an argument.
+    // If no match is found, -1 will be returned
+    static private int retreiveIndexOfItem(Item item) {
+        int index = 0;
+        for(ItemAndCountPair i : inventory.items) {
+            if(i.key.getClass() == item.getClass()) { // the type of given object matches the type of an object within the inventory
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    static public List<ItemAndCountPair> returnAllWeaponsFromInventory(){
+        List<ItemAndCountPair> returnedWeapons = new ArrayList<>();
+        Stream<ItemAndCountPair> weaponsStream = inventory.items.stream();
+        weaponsStream.filter(item -> item.key instanceof Weapon).sorted().forEach(item -> returnedWeapons.add(item));
+        return returnedWeapons;
+    }
+
+    static public void eraseInventory(){
+        inventory.items.clear();
+        inventory.currentWeightCapacity = 0;
+        inventory.usedSlots = 0;
+    }
+
+    static public List<ItemAndCountPair> returnAllPotionsFromInventory(){
+        List<ItemAndCountPair> returnedPotions = new ArrayList<>();
+        Stream<ItemAndCountPair> potionsStream = inventory.items.stream();
+        potionsStream.filter(item -> item.key instanceof Potion).sorted().forEach(item -> returnedPotions.add(item));
+        return returnedPotions;
+    }
+
+    static private boolean stackItemToInventory(Item item){
+        //Check if he item already appears in your inventory, so you can stack it
+        //trebuie referinta sau doar clasa
+        int indexOfItem = retreiveIndexOfItem(item);
+        if(indexOfItem>=0) // An instance of the item you want to add already exists in your inventory, so you can stack it
+        {
+            inventory.items.get(indexOfItem).value++;
+            inventory.currentWeightCapacity += item.getItemWeight();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    static public void addItemToInventory(Item item) {
+        if (inventory.currentWeightCapacity + item.getItemWeight() > inventory.totalWeightCapacity) {
+            OutputDevice.printMessage("Cannot add this item to your inventory. It would exceed the total weight capacity of " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
+            return;
+        }
+
+        // Try stacking the item
+        boolean itemHasBeenStacked = stackItemToInventory(item);
+
+        if (inventory.usedSlots >= inventory.totalSlots && !itemHasBeenStacked) {
+            OutputDevice.printMessage("Cannot add this item to your inventory. All " + inventory.totalSlots + "/" + inventory.totalSlots + " slots are occupied.");
+            return;
+        }
+
+        if (itemHasBeenStacked) {
+            OutputDevice.printMessage("Item has been stacked to your inventory.");
+        } else {
+            // The item is not stackable but can still be added to its own slot
+            inventory.items.add(new ItemAndCountPair(item, 1));
+            inventory.currentWeightCapacity += item.getItemWeight();
+            inventory.usedSlots++;
+            OutputDevice.printMessage("Item added to inventory in its own slot.");
+        }
+    }
+
+    static public boolean emptyInventoryQuery(){
+        return inventory.items.isEmpty();
+    }
+
+
+    static private void printItemWithCounting(ItemAndCountPair itemPair) {
+        OutputDevice.printMessage("-----------------------------------------------------------------------------------------------------------");
+
+        int instances = itemPair.value;
+        if(instances>1) // if the items are stacked
+        {
+            OutputDevice.printMessageWithoutNewLine("x" + instances + " ");
+        }
+        OutputDevice.printMessage(itemPair.key.getItemInformation());
+
+        OutputDevice.printMessage("-----------------------------------------------------------------------------------------------------------");
+    }
+
+    static public void removeItemFromInventory(Item item) {
+        int indexOfItem = retreiveIndexOfItem(item);
+        if(indexOfItem!=-1)
+        {
+            if(inventory.items.get(indexOfItem).value>1) // Item to be removed is stacked
+                inventory.items.get(indexOfItem).value--;
+            else if(inventory.items.get(indexOfItem).value==1)
+                inventory.items.remove(indexOfItem);
+
+            OutputDevice.printMessage("Item has been removed from your inventory");
+        }
+        else
+            OutputDevice.printMessage("No such item exists in your inventory");
+    }
+
+    static private void equipWeapon(String weaponName){
+        weaponName = weaponName.toLowerCase();
+        boolean weaponHasBeenEquipped = false;
+        // look for weapon within inventory based on name
+        for(ItemAndCountPair itemPair : inventory.items)
+        {
+            //if weaponName equals items name then equip weapon
+            //first get item's name
+            Item itemFromInventory = itemPair.key;
+            String itemFromInventoryName = itemFromInventory.getItemName();
+
+            if (weaponName.equals(itemFromInventoryName.toLowerCase()))
+            {
+                // Verify that item is a weapon
+                // fetch the item as a Weapon not as an Item
+                if(itemFromInventory instanceof Weapon)
+                {
+                    inventory.character.equipWeapon((Weapon) itemFromInventory);
+                    weaponHasBeenEquipped = true;
+                    OutputDevice.printMessage(itemFromInventoryName + " has been eqquiped.");
+                    break;
+                }
+                else // Item is not a weapon
+                {
+                    OutputDevice.printMessage("Your input matches an item from your inventory, but it is not a weapon...");
+                }
+            }
+        }
+        if (weaponHasBeenEquipped == false)
+        {
+            OutputDevice.printMessage("Your input does not match to any weapon in your inventory!");
+        }
+    }
+
+    static private void usePotion(String potionName){
+        potionName = potionName.toLowerCase();
+        boolean potionHasBeenConsumed = false;
+        // look for potion within inventory based on name
+        for(ItemAndCountPair itemPair : inventory.items)
+        {
+            //first get item's name
+            Item itemFromInventory = itemPair.key;
+            String itemFromInventoryName = itemFromInventory.getItemName();
+            //if potionName equals item's name then consume potion
+            if (potionName.equals(itemFromInventoryName.toLowerCase()))
+            {
+                // Verify that item is a potion
+                // fetch the item as a Potion not as an Item
+                if(itemFromInventory instanceof Potion)
+                {
+                    Potion potionToBeConsumed =  (Potion) itemFromInventory; // Casting Item to Potion so it can be passed as Potion, not Item, to other methods
+                    inventory.character.drinkPotion(potionToBeConsumed);
+                    // Delete potion instance from inventory. Case where it is and it is not stacked.
+                    removeItemFromInventory(itemFromInventory);
+                    potionHasBeenConsumed = true;
+                    OutputDevice.printMessage(itemFromInventoryName + " has been consumed.");
+                    break;
+                }
+                else // Item is not a potion
+                {
+                    OutputDevice.printMessage("Your input matches an item from your inventory, but it is not a potion...");
+                    break;
+                }
+            }
+        }
+        if (potionHasBeenConsumed == false)
+        {
+            OutputDevice.printMessage("Your input does not match to any potion in your inventory!");
+        }
+    }
+
+    public void updateDisplay(List<ItemAndCountPair> items) {
+        if (itemsContainer == null) {
+            OutputDevice.printMessage("itemsContainer is not injected. Check FXML fx:id.");
+            return;
+        }
+
+        itemsContainer.getChildren().clear();
+        for (ItemAndCountPair item : items) {
+            HBox itemBox = createItemBox(item);
+            itemsContainer.getChildren().add(itemBox);
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        updateDisplay(inventory.items);  // Auto-display items at startup
+    }
+
+
+    private HBox createItemBox(ItemAndCountPair pair) {
+
+        Item   item  = pair.key;
+        int    count = pair.value;
+
+        // ░░  rarity colour square ░░
+        Region rarity = new Region();
+        rarity.setPrefSize(20, 20);
+        rarity.setStyle("-fx-background-color:" + item.getItemRarityColor() +
+                "; -fx-border-color:black;");
+
+        // ░░  name + stack count ░░
+        Label name = new Label(item.getItemName() + " x" + count);
+        name.setStyle("-fx-font-size:14; -fx-font-weight:bold;");
+
+        // ░░  equipped icon (added later if needed) ░░
+        Label equippedIcon = new Label("⚔");   // U+2694 CROSSED SWORDS
+        equippedIcon.setStyle("-fx-font-size:16;");
+        equippedIcon.setVisible(false);        // default: hidden
+
+        HBox box = new HBox(10, rarity, name, equippedIcon);
+        box.setPadding(new Insets(5));
+        box.setStyle("-fx-background-color:#f0f0f0; -fx-border-color:gray; -fx-border-radius:5;");
+
+        /* ----------  highlight if this weapon is the equipped one  ---------- */
+        if (item instanceof Weapon weapon && weapon == getEquippedWeapon()) {
+            equippedIcon.setVisible(true);
+            box.setStyle("-fx-background-color:#d9ffd9; -fx-border-color:gray; -fx-border-radius:5;");
+        }
+
+        /* ----------  click behaviour  ---------- */
+        box.setOnMouseClicked(e -> {
+
+            if (item instanceof Weapon weapon) {                           // equip
+                inventory.character.equipWeapon(weapon);
+                OutputDevice.printMessage(weapon.getItemName() + " equipped.");
+                updateDisplay(inventory.items);
+                return;
+            }
+
+            if (item instanceof Potion potion) {                           // use
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Use " + potion.getItemName() + "?",
+                        ButtonType.OK, ButtonType.CANCEL);
+                alert.setHeaderText(null);
+                alert.setTitle("Use Potion");
+                if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                    inventory.character.drinkPotion(potion);
+                    removeItemFromInventory(potion);
+                    OutputDevice.printMessage(potion.getItemName() + " used.");
+                    updateDisplay(inventory.items);
+                }
+            }
+        });
+
+        return box;
+    }
+
+
+    @FXML
+    private void handleDisplayWeapons() {
+        List<ItemAndCountPair> weapons = inventory.items.stream()
+                .filter(i -> i.key instanceof Weapon)
+                .toList();
+        updateDisplay(weapons);
+    }
+
+    @FXML
+    private void handleDisplayPotions() {
+        List<ItemAndCountPair> potions = inventory.items.stream()
+                .filter(i -> i.key instanceof Potion)
+                .toList();
+        updateDisplay(potions);
+    }
+
+    @FXML
+    private void handleExit() {
+        Stage stage = (Stage) itemsContainer.getScene().getWindow();
+        stage.close();  // Or navigate back to previous screen
+    }
+}

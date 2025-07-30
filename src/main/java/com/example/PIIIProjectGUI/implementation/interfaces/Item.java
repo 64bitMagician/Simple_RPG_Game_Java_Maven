@@ -12,5 +12,7 @@ public interface Item {
 
     String getItemName();
 
+    String getItemRarityColor();
+
     //all items should have a description
 }

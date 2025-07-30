@@ -5,12 +5,12 @@ import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 
 public abstract class Potion implements Item, Comparable<Potion> {
     //DATA
-    protected enum PotionColors {BLUE,RED,ORANGE,YELLOW,GREEN,BLACK}
+    protected enum PotionRarityColors {GREEN,BLUE,RED,ORANGE}
 
     protected String potionName;
     protected int potionItemQuality;
     protected float weight;
-    protected PotionColors color;
+    protected PotionRarityColors color;
 
     // ABSTRACT METHODS
 
@@ -33,6 +33,17 @@ public abstract class Potion implements Item, Comparable<Potion> {
         }
 
         return 0;
+    }
+
+    @Override
+    public String getItemRarityColor() {
+        switch (color) {
+            case GREEN -> { return "green"; }
+            case BLUE -> { return "blue"; }
+            case RED -> { return "red"; }
+            case ORANGE -> { return "orange"; }
+        }
+        return "grey";
     }
 
     @Override

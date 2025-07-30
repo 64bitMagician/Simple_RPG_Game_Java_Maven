@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.GUI.GUIControllers;
 
 import com.example.PIIIProjectGUI.GUI.utilities.GameState;
+import com.example.PIIIProjectGUI.app.Game;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.HolySword;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,13 +16,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class LoginController {
-
-    private String[] args;
-
-    public LoginController(String[] args) {
-        this.args = args;
-    }
-
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
@@ -38,7 +32,7 @@ public class LoginController {
 
         if (credentialsMatch(email, password)) {
             try {
-                loadCharacterCreationScreen(event);
+                loadNextScreen(event);
             } catch (IOException e) {
                 e.printStackTrace();
                 messageLabel.setText("Failed to load game.");
@@ -62,13 +56,22 @@ public class LoginController {
         return false;
     }
 
-    private void loadCharacterCreationScreen(ActionEvent event) throws IOException {
+    private void loadNextScreen(ActionEvent event) throws IOException {
         // Handle program arguments
         //      You can pass arguments to the program, such that you enter the game with a cheater run
         //  or with a normal run. [ "cheatMode" - cheat run, "default" - normal run   ]
 
         //  Character Creation
-        if(args[0].equals("cheatMode"))
+        if(GameState.args.length==0 || GameState.args[0].equals("default"))
+        {
+            // Transition to Character Creation Screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/character-creation-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
+        else if(GameState.args[0].equals("cheatMode"))
         {
             GameState.character = new com.example.PIIIProjectGUI.implementation.Classes.player.Character("Cheater", 999, 999, new HolySword());
             // Transition to Main Menu Screen
@@ -77,14 +80,9 @@ public class LoginController {
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);
         }
-        else if(args[0].equals("default"))
-        {
-            // Transition to Character Creation Screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/character-creation-view.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+        else {
+            System.out.println("Invalid Program Arguments");
+            System.exit(0);
         }
     }
 

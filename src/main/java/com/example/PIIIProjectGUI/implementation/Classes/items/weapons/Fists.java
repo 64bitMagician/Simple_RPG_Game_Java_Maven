@@ -9,6 +9,7 @@ public class Fists extends Weapon {
         this.weaponItemQuality = 1;
         this.weaponDamage = 5;
         this.weight = 0;
+        this.color = WeaponRarityColors.GREEN;
     }
 
     @Override

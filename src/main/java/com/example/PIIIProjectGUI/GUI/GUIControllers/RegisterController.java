@@ -57,11 +57,13 @@ public class RegisterController {
 
     @FXML
     private void switchToLogin() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/login-view.fxml"));
+
+        Scene scene = new Scene(loader.load(), 400, 300);
         Stage stage = (Stage) emailField.getScene().getWindow();
         stage.setScene(scene);
     }
+
 
 
     private boolean isValidEmail(String email) {

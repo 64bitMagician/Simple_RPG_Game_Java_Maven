@@ -9,6 +9,7 @@ public class GoldSlingshot extends Weapon {
         this.weaponItemQuality = 3;
         this.weaponDamage = 40;
         this.weight = 8;
+        this.color = WeaponRarityColors.RED;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.PotionChest;
@@ -13,7 +14,7 @@ public class Explore {
     //DATA
     // The main character
     Character character;
-    Inventory inventory;
+    InventoryController inventory;
     //      runPattern defines the exploration flow. The predetermined path that the character is going to encounter
     // during his exploration. It is a list of '0' and '1', where 0 denotes a lootable area and 1 denotes a battle.
     private int[] runPattern = {1,0,1,0,1,1,0,1};
@@ -24,7 +25,7 @@ public class Explore {
     private int battleCounter;
 
 
-    public Explore(Character character,Inventory inventoryReference){
+    public Explore(Character character,InventoryController inventoryReference){
         this.character = character;
         this.inventory = inventoryReference;
         initializeBattles(character);

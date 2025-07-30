@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.exceptions.NoSavedInventoryStateException;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.DeathPotion;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.GreatHealthPotion;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class RetreiveSavedInventory {
 
-    public static void run(Inventory inventory){
+    public static void run(InventoryController inventory){
         try{
                 Boolean queryAnswer = yesNoQuery.query("Retreiving saved items will remove all items from current inventory.\nAre you sure you want to do that?");
                 if(queryAnswer)
@@ -42,7 +43,7 @@ public class RetreiveSavedInventory {
 
 
 
-    private static void retreiveSavedInventory(Inventory inventory){
+    private static void retreiveSavedInventory(InventoryController inventory){
         if(CSVInputDevice.isCSVEmptyAfterHeader("src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryWeapons.csv") && CSVInputDevice.isCSVEmptyAfterHeader("src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryPotions.csv"))
         {
             throw new NoSavedInventoryStateException("!Inventory Save Missing. There are no items to be retreived!");
@@ -79,7 +80,7 @@ public class RetreiveSavedInventory {
         OutputDevice.printMessage("Saved Inventory Has Been Restored");
     }
 
-    private static void addSampleItemsToInventory(Inventory inventory){
+    private static void addSampleItemsToInventory(InventoryController inventory){
         inventory.addItemToInventory(new DeathPotion());
         inventory.addItemToInventory(new GreatHealthPotion());
         inventory.addItemToInventory(new DeathPotion());

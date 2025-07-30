@@ -1,13 +1,17 @@
 package com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses;
 
+import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 
 public abstract class Weapon implements Item, Comparable<Weapon> {
+    protected enum WeaponRarityColors {GREEN,BLUE,RED,ORANGE}
+
     //DATA
     protected String weaponName;
     protected float weight;
     protected int weaponItemQuality;
     public float weaponDamage;
+    protected WeaponRarityColors color;
 
     @Override
     public int compareTo(Weapon other) {
@@ -40,8 +44,19 @@ public abstract class Weapon implements Item, Comparable<Weapon> {
     }
 
     @Override
+    public String getItemRarityColor() {
+        switch (color) {
+            case GREEN -> { return "green"; }
+            case BLUE -> { return "blue"; }
+            case RED -> { return "red"; }
+            case ORANGE -> { return "orange"; }
+        }
+        return "grey";
+    }
+
+    @Override
     public String getItemInformation() {
-        return weaponName + " | " + "IQ: " +weaponItemQuality + " | " + "D: " +weaponDamage + " | " + "W: " + weight + "\nITEM DESCRIPTION: " + getItemDescription();
+        return weaponName + " | " + "IQ: " + weaponItemQuality + " | " + "D: " +weaponDamage + " | " + "W: " + weight + "\nITEM DESCRIPTION: " + getItemDescription();
     }
 
     //ABSTRACT METHODS
@@ -52,7 +67,7 @@ public abstract class Weapon implements Item, Comparable<Weapon> {
     public String toString() {
         String string;
         string = "--------------------------------------------------------------------------\n";
-        string += weaponName + " | " + "IQ: " +weaponItemQuality + " | " + "D: " +weaponDamage + " | " + "W: " + weight + "\nITEM DESCRIPTION: " + getItemDescription() + "\n";
+        string += weaponName + " | " + "IQ: " + weaponItemQuality + " | " + "D: " +weaponDamage + " | " + "W: " + weight + "\nITEM DESCRIPTION: " + getItemDescription() + "\n";
         string += "--------------------------------------------------------------------------";
         return string;
     }

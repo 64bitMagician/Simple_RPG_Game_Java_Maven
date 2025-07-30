@@ -42,8 +42,8 @@ public class SaveInventory {
         List<Pair<Integer,String>> savingPotionsList = new ArrayList<>();
 
         //Retreive all weapon and potion items
-        weaponList = inventory.returnAllWeaponsFromInventory();
-        potionList = inventory.returnAllPotionsFromInventory();
+        weaponList = inventory.inventoryController.returnAllWeaponsFromInventory();
+        potionList = inventory.inventoryController.returnAllPotionsFromInventory();
 
         //Exception for when the inventory is empty. Thus there is nothing to be saved.
         if(weaponList.isEmpty() && potionList.isEmpty()){

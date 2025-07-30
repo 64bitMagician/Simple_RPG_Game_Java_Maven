@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.app;
 
 // I/O imports
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.UI.UIState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.SaveInventory;
@@ -13,12 +14,18 @@ import com.example.PIIIProjectGUI.inputoutput.InputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.RetreiveSavedInventory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Game {
     //DATA
     Character character;
     Explore exploration;
     Inventory inventory;
+    InventoryController inventoryController;
 
 
 
@@ -70,10 +77,10 @@ public class Game {
         createCharacter(args, startingWeapon);
 
         inventory = new Inventory(character);
-        exploration = new Explore(character, inventory);
+        exploration = new Explore(character, inventoryController);
 
-        inventory.addItemToInventory(fists);
-        inventory.addItemToInventory(startingWeapon);
+        inventoryController.addItemToInventory(fists);
+        inventoryController.addItemToInventory(startingWeapon);
 
         OutputDevice.printMessage("GAME STARTED");
     }
@@ -86,10 +93,10 @@ public class Game {
         createCharacter(args, startingWeapon);
 
         inventory = new Inventory(character);
-        exploration = new Explore(character, inventory);
+        exploration = new Explore(character, inventoryController);
 
-        inventory.addItemToInventory(fists);
-        inventory.addItemToInventory(startingWeapon);
+        inventoryController.addItemToInventory(fists);
+        inventoryController.addItemToInventory(startingWeapon);
     }
 
 
@@ -113,7 +120,18 @@ public class Game {
             if(action.equals("Open Your Inventory"))
             {
                 //Open Your Inventory Implementation
-                inventory.run();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/inventory-view.fxml"));
+                    Scene scene = new Scene(loader.load());
+                    Stage stage = new Stage();  // Or reuse the current one if preferred
+                    stage.setScene(scene);
+                    stage.setTitle("Inventory");
+                    stage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // Optionally show an error dialog to the user
+                    // showErrorDialog("Failed to load inventory screen.");
+                }
             }
             else if(action.equals("Explore"))
             {
@@ -126,7 +144,7 @@ public class Game {
             }
             else if(action.equals("Retreive Saved Inventory"))
             {
-                RetreiveSavedInventory.run(inventory);
+                RetreiveSavedInventory.run(inventoryController);
             }
             else if(action.equals("Save Inventory"))
             {

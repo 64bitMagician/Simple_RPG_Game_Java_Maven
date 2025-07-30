@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.loot;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
@@ -21,7 +22,7 @@ public class PotionChest extends LootableArea {
     // Temporary Data
     List<Item> temporaryPotionList = new ArrayList<Item>();
 
-    public PotionChest(Inventory inventoryReference) {
+    public PotionChest(InventoryController inventoryReference) {
         initializeChestWithRandomPotion();
         this.loot.addAll(temporaryPotionList);
         this.inventory = inventoryReference;

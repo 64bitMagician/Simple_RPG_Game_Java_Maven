@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.PIIIProjectGUI.controllers.MainMenuController">
+      fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.MainMenuController">
     <Button text="Open Your Inventory" onAction="#onInventory"/>
     <Button text="Explore" onAction="#onExplore"/>
     <Button text="Show Player Stats" onAction="#onShowStats"/>

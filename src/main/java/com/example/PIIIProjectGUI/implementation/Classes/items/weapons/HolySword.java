@@ -9,6 +9,7 @@ public class HolySword extends Weapon {
         this.weaponItemQuality = 4;
         this.weaponDamage = 64;
         this.weight = 21;
+        this.color = WeaponRarityColors.ORANGE;
     }
 
     @Override

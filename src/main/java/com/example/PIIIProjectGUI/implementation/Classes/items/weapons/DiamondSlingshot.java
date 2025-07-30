@@ -9,6 +9,7 @@ public class DiamondSlingshot extends Weapon {
         this.weaponItemQuality = 4;
         this.weaponDamage = 50;
         this.weight = 10;
+        this.color = WeaponRarityColors.ORANGE;
     }
 
     @Override

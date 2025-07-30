@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.implementation.interfaces.LootableAreaInterface;
@@ -12,7 +13,7 @@ import java.util.List;
 public abstract class LootableArea implements LootableAreaInterface {
     //Data
     protected List<Item> loot = new ArrayList<>();
-    protected Inventory inventory;
+    protected InventoryController inventory;
 
     @Override
     public void lootItems() {

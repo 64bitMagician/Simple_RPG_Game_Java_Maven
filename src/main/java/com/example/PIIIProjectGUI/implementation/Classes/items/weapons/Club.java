@@ -9,6 +9,7 @@ public class Club extends Weapon {
         this.weaponItemQuality = 1;
         this.weaponDamage = 20;
         this.weight = 15;
+        this.color = WeaponRarityColors.GREEN;
     }
 
     @Override

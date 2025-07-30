@@ -9,6 +9,7 @@ public class SteelSlingshot extends Weapon {
         this.weaponItemQuality = 2;
         this.weaponDamage = 30;
         this.weight = 6;
+        this.color = WeaponRarityColors.BLUE;
     }
 
     @Override

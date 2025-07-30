@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.UI.UIState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
@@ -9,7 +10,11 @@ import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.threads.EnemyAtackThread;
 import com.example.PIIIProjectGUI.threads.CharacterAtackThread;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,7 +24,7 @@ public abstract class ThreadedBattle implements BattleInterface {
     // The enemies do one atack on the player, each one of them.
     //DATA
     public Character character;
-    public Inventory inventory;
+    public InventoryController inventory;
     public List<Enemy> enemyArmy = new ArrayList<>();
     public AtomicBoolean ongoingBattle = new AtomicBoolean();
 
@@ -44,7 +49,18 @@ public abstract class ThreadedBattle implements BattleInterface {
 
             if (action.equals("Open Your Inventory")) {
                 //Open Your Inventory Implementation
-                inventory.run();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/inventory-view.fxml"));
+                    Scene scene = new Scene(loader.load());
+                    Stage stage = new Stage();  // Or reuse the current one if preferred
+                    stage.setScene(scene);
+                    stage.setTitle("Inventory");
+                    stage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // Optionally show an error dialog to the user
+                    // showErrorDialog("Failed to load inventory screen.");
+                }
             }
             else if (action.equals("Atack")) {
                 // Initiate Atack

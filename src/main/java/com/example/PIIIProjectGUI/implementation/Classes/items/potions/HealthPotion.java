@@ -13,7 +13,7 @@ public class HealthPotion extends Potion {
         this.potionName = "Health Potion";
         this.potionItemQuality = 1;
         this.weight = 2.0f;
-        this.color = PotionColors.RED;
+        this.color = PotionRarityColors.GREEN;
     }
 
     @Override

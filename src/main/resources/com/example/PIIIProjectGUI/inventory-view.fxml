@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController">
+
+    <!-- Top: Title -->
+    <top>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label fx:id="statusLabel"
+                   text="Inventory Menu"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        </VBox>
+    </top>
+
+    <!-- Left: Buttons -->
+    <left>
+        <VBox spacing="10" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Display Weapons" onAction="#handleDisplayWeapons" />
+            <Button text="Display Potions" onAction="#handleDisplayPotions" />
+            <Button text="Exit Inventory" onAction="#handleExit" />
+        </VBox>
+    </left>
+
+    <!-- Right: Scrollable item boxes -->
+    <right>
+        <ScrollPane fitToWidth="true"
+                    fitToHeight="true"
+                    prefHeight="400"
+                    prefWidth="500"
+                    BorderPane.alignment="CENTER"
+                    style="-fx-border-color: #ccc; -fx-border-width: 1; -fx-background: #f9f9f9;">
+            <content>
+                <VBox fx:id="itemsContainer"
+                      spacing="10"
+                      prefWidth="480"
+                      style="-fx-background-color: #ffffff;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </right>
+
+
+
+</BorderPane>

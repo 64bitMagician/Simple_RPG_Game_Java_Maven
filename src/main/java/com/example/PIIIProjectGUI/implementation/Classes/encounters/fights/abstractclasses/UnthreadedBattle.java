@@ -7,7 +7,11 @@ import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.
 import com.example.PIIIProjectGUI.implementation.interfaces.BattleInterface;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,7 +44,18 @@ public abstract class UnthreadedBattle implements BattleInterface {
 
             if (action.equals("Open Your Inventory")) {
                 //Open Your Inventory Implementation
-                inventory.run();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/inventory-view.fxml"));
+                    Scene scene = new Scene(loader.load());
+                    Stage stage = new Stage();  // Or reuse the current one if preferred
+                    stage.setScene(scene);
+                    stage.setTitle("Inventory");
+                    stage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // Optionally show an error dialog to the user
+                    // showErrorDialog("Failed to load inventory screen.");
+                }
             }
             else if (action.equals("Atack")) {
                 // Initiate Atack

@@ -11,7 +11,7 @@ public class DeathPotion extends Potion {
         this.potionName = "Death Potion";
         this.potionItemQuality = 1;
         this.weight = 10.0f;
-        this.color = PotionColors.BLACK;
+        this.color = PotionRarityColors.GREEN;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.GUI.GUIControllers;
 
+import com.example.PIIIProjectGUI.GUI.utilities.GameState;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,19 +11,18 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // Activate GameState instance
         String[] args = getParameters().getRaw().toArray(new String[0]);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/register-view.fxml"));
+        // Store args globally
+        GameState.args = args;
 
-        // Inject arguments via controller factory
-        loader.setControllerFactory(param -> new LoginController(args));
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/login-view.fxml"));
         Scene scene = new Scene(loader.load(), 400, 300);
         stage.setTitle("User Registration");
         stage.setScene(scene);
         stage.show();
     }
+
 
 
 
