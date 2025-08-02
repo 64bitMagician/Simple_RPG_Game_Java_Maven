@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController">
+
+    <!-- Left: Action Buttons -->
+    <left>
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="15" left="15" bottom="15" right="15"/>
+            </padding>
+            <Button text="Open up Inventory" onAction="#handleOpenInventory"/>
+            <Button text="Attack" onAction="#handleAttack"/>
+            <Button text="Exit Game" onAction="#handleExitGame"/>
+        </VBox>
+    </left>
+
+    <!-- Center: Battle Visual Area -->
+    <center>
+        <VBox fx:id="battleArea" spacing="20" style="-fx-background-color: #f4f4f4;">
+            <padding>
+                <Insets top="15" left="15" bottom="15" right="15"/>
+            </padding>
+        </VBox>
+    </center>
+
+    <!-- Bottom: Battle Log -->
+    <bottom>
+        <TextArea fx:id="battleLog"
+                  editable="false"
+                  wrapText="true"
+                  prefRowCount="6"
+                  style="-fx-font-family: monospace; -fx-font-size: 12px;" />
+    </bottom>
+
+</BorderPane>

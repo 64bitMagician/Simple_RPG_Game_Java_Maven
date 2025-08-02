@@ -1,92 +1,76 @@
 package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
+import com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController;
 import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.PotionChest;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.WeaponChest;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
-import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Explore {
 
     //DATA
     // The main character
-    Character character;
-    InventoryController inventory;
+    public Character character;
+    public InventoryController inventoryController;
     //      runPattern defines the exploration flow. The predetermined path that the character is going to encounter
     // during his exploration. It is a list of '0' and '1', where 0 denotes a lootable area and 1 denotes a battle.
-    private int[] runPattern = {1,0,1,0,1,1,0,1};
-    private int runTotalStages = runPattern.length;
-    private int runStageCounter;
+    public int[] runPattern = {1,0,1,0,1,1,0,1};
+    public int runTotalStages = runPattern.length;
+    public int runStageCounter;
     // battles.length must match the '1's in 'runPattern'
-    private ThreadedBattle[] battles = new ThreadedBattle[5];
-    private int battleCounter;
+    public ThreadedBattle[] battles = new ThreadedBattle[5];
+    public int battleCounter;
 
 
-    public Explore(Character character,InventoryController inventoryReference){
+    public Explore(Character character,InventoryController inventoryControllerReference){
         this.character = character;
-        this.inventory = inventoryReference;
+        this.inventoryController = inventoryControllerReference;
         initializeBattles(character);
         runStageCounter=0;
         battleCounter=0;
     }
 
     public void run(Character character){
-        if (runStageCounter == runTotalStages)
-        {
-            OutputDevice.printMessage("You beat all the monsters");
-            OutputDevice.printMessage("     YOU WON!");
-            OutputDevice.printMessage("    The End...");
-            System.exit(0);
+        ExploreController.run(character);
+    }
+
+    public ExploreController loadBattleScreen(Stage stage, Character character) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/battle-view.fxml"));
+            Parent root = loader.load();
+
+            ExploreController controller = loader.getController();
+            controller.drawBattle(); // draw initially
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Battle!");
+            stage.show();
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-            if(runPattern[runStageCounter]==0) // Encounter a lootable area
-            {
-                OutputDevice.printMessage("!YOU FOUND A CHEST!");
-                LootableArea randomLootableArea;
-                if(Math.random() < 0.7)
-                {
-                    randomLootableArea = new WeaponChest(inventory);
-                }
-                else
-                {
-                    randomLootableArea = new PotionChest(inventory);
-                }
-                lootLootableArea(randomLootableArea);
-                //Free up memory by removing references to the instanced object, using null.
-                //This makes randomLootableArea be garbage-collected.
-                randomLootableArea = null;
-            }
-            else if(runPattern[runStageCounter]==1) // Encounter a battle
-            {
-                OutputDevice.printMessage("               YOU ENCOUNTERED A BATTLE");
-                OutputDevice.printMessage("======================================================");
+    }
 
-                ThreadedBattle battle = battles[battleCounter];
 
-                battle.run();
-
-                battleCounter++;
-            }
-            runStageCounter++;
-        }
 
     // Private Methods
 
-    private void initializeBattles(Character character){
-        battles[0] = new Battle1(character,inventory);
-        battles[1] = new Battle2(character,inventory);
-        battles[2] = new Battle3(character,inventory);
-        battles[3] = new Battle4(character,inventory);
-        battles[4] = new Battle5(character,inventory);
-    }
 
-    private void lootLootableArea(LootableArea lootableArea){
-        OutputDevice.printMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        lootableArea.initializingMessage();
-        lootableArea.lootItems();
-        OutputDevice.printMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    private void initializeBattles(Character character){
+        battles[0] = new Battle1(character,inventoryController);
+        battles[1] = new Battle2(character,inventoryController);
+        battles[2] = new Battle3(character,inventoryController);
+        battles[3] = new Battle4(character,inventoryController);
+        battles[4] = new Battle5(character,inventoryController);
     }
 }
 
