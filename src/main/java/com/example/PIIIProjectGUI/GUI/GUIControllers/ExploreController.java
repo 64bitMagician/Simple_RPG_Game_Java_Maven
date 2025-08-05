@@ -48,7 +48,7 @@ public class ExploreController {
     static private void updateEnemyUIData(){
          for(int i = 0; i < enemies.toArray().length; i++)
          {
-             enemiesUI.get(i).hp = enemies.get(i).health;
+             enemiesUI.get(i).correspondingEnemy.health = enemies.get(i).health;
              enemiesUI.get(i).updateHealthBar();
          }
     }
@@ -182,21 +182,23 @@ public class ExploreController {
     // Inner class: EnemyUI
     // ---------------------------
     private class EnemyUI {
-         Enemy correspondingEnemy;
-        String name;
-        float hp;
+        Enemy correspondingEnemy;
         VBox container;
         ProgressBar hpBar;
+        StackPane hpStack;
 
         EnemyUI(String name, float hp, Enemy enemy) {
             this.correspondingEnemy = enemy;
-            this.name = name;
-            this.hp = hp;
             this.hpBar = new ProgressBar(hp / correspondingEnemy.totalHealth);
             hpBar.setPrefWidth(120);
             Label nameLabel = new Label(name);
 
-            container = new VBox(5, nameLabel, hpBar);
+            Label hpLabel = new Label((float)correspondingEnemy.health + " / " + (float)correspondingEnemy.totalHealth);
+            hpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: black;");
+
+            hpStack = new StackPane(hpBar, hpLabel);
+
+            container = new VBox(5, nameLabel, hpStack);
             container.setStyle("-fx-border-color: black; -fx-padding: 10; -fx-background-color: #fdd;");
             container.setOnMouseClicked(e -> select());
 
@@ -204,17 +206,25 @@ public class ExploreController {
         }
 
         void takeDamage(int amount) {
-            hp -= amount;
-            if (hp < 0) hp = 0;
-            hpBar.setProgress(hp / 100.0);
+            correspondingEnemy.health -= amount;
+            if (correspondingEnemy.health < 0) correspondingEnemy.health = 0;
+            hpBar.setProgress(correspondingEnemy.health / 100.0);
         }
 
         void updateHealthBar()
         {
-            if(hp <= 0)
+            Label hpLabel = (Label) hpStack.getChildren().get(1);
+
+            if(correspondingEnemy.health <= 0)
+            {
                 hpBar.setProgress(0/correspondingEnemy.totalHealth);
+                hpLabel.setText("0/" + correspondingEnemy.totalHealth);
+            }
             else
-                hpBar.setProgress(hp/correspondingEnemy.totalHealth);
+            {
+                hpBar.setProgress(correspondingEnemy.health/correspondingEnemy.totalHealth);
+                hpLabel.setText(correspondingEnemy.health + "/" + correspondingEnemy.totalHealth);
+            }
         }
 
         void select() {
@@ -239,22 +249,35 @@ public class ExploreController {
     private class CharacterUI {
         VBox container;
         ProgressBar hpBar;
+        StackPane hpStack;
 
         CharacterUI() {
             this.hpBar = new ProgressBar(GameState.character.health / GameState.character.totalHealth);
             hpBar.setPrefWidth(120);
             Label nameLabel = new Label(GameState.character.name);
+            Label hpLabel = new Label((float)GameState.character.health + " / " + (float)GameState.character.totalHealth);
+            hpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: black;");
 
-            container = new VBox(5, nameLabel, hpBar);
+            hpStack = new StackPane(hpBar, hpLabel);
+
+            container = new VBox(5, nameLabel, hpStack);
             container.setStyle("-fx-border-color: black; -fx-padding: 10; -fx-background-color: #98FB98;");
         }
 
         void updateHealthBar()
         {
+            Label hpLabel = (Label) hpStack.getChildren().get(1);
+
             if(GameState.character.health <= 0)
+            {
                 hpBar.setProgress(0/GameState.character.totalHealth);
+                hpLabel.setText("0/" + GameState.character.totalHealth);
+            }
             else
+            {
                 hpBar.setProgress(GameState.character.health/GameState.character.totalHealth);
+                hpLabel.setText(GameState.character.health + "/" + GameState.character.totalHealth);
+            }
         }
     }
 }
