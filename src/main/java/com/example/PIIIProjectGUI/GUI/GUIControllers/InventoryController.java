@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.GUI.GUIControllers;
 
 import com.example.PIIIProjectGUI.GUI.utilities.GameState;
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.InputDevice;
@@ -8,6 +9,8 @@ import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
+import com.example.PIIIProjectGUI.utilities.yesNoQuery;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -20,6 +23,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.management.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,28 +77,90 @@ public class InventoryController {
         return returnedPotions;
     }
 
-    static private boolean stackItemToInventory(Item item){
+
+
+    static private int getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(Item itemInstance, int numberOfItemInstances)
+    {
+        float itemInstanceWeight = itemInstance.getItemWeight();
+        float totalWeightOfItemInstances = itemInstanceWeight*numberOfItemInstances;
+
+        float maxPossibleInventoryCapacity = inventory.currentWeightCapacity + totalWeightOfItemInstances;
+        int maxNumberOfInstancesYouCanAdd = numberOfItemInstances;
+
+        while(maxPossibleInventoryCapacity > inventory.totalWeightCapacity)
+        {
+            maxPossibleInventoryCapacity -= itemInstanceWeight;
+            maxNumberOfInstancesYouCanAdd--;
+        }
+
+        return maxNumberOfInstancesYouCanAdd;
+    }
+
+    static private int getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(ItemAndCountPair itemAndCountPair)
+    {
+        Item itemInstance = itemAndCountPair.key;
+        int numberOfItemInstances = itemAndCountPair.value;
+
+        return getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(itemInstance, numberOfItemInstances);
+    }
+
+    static private boolean stackItemToInventory(Item item, int itemInstancesToStack){
+        float inentoryCurrentWeightCapacity = inventory.currentWeightCapacity;
+        float inventoryTotalWeightCapacity = inventory.totalWeightCapacity;
+        float totalItemAndCountPairWeightCapacity = item.getItemWeight()*itemInstancesToStack;
+
         //Check if he item already appears in your inventory, so you can stack it
         //trebuie referinta sau doar clasa
         int indexOfItem = retreiveIndexOfItem(item);
+
         if(indexOfItem>=0) // An instance of the item you want to add already exists in your inventory, so you can stack it
         {
-            inventory.items.get(indexOfItem).value++;
-            inventory.currentWeightCapacity += item.getItemWeight();
-            return true;
+            if (inentoryCurrentWeightCapacity + totalItemAndCountPairWeightCapacity > inventoryTotalWeightCapacity)
+            {
+                // But what is the max number of items you can add from the number of instances
+                int maxNumberOfItemInstancesYouCanStack = getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(item, itemInstancesToStack);
+
+                if(maxNumberOfItemInstancesYouCanStack == 0) // Even one item is too heavy to be added to inventory
+                {
+                    OutputDevice.printMessage("You cannot stack any of items because it will exceed your weight capacity...");
+                    return false;
+                }
+
+                boolean addAsManyAsPossible = yesNoQuery.query("Too much weight! You cannot stack all that items to your inventory. Want to add as many as possible?");
+
+                if (addAsManyAsPossible)
+                {
+                    inventory.items.get(indexOfItem).value+=maxNumberOfItemInstancesYouCanStack;
+                    inventory.currentWeightCapacity += item.getItemWeight()*maxNumberOfItemInstancesYouCanStack;
+                    return true;
+                }
+                else
+                {
+                    OutputDevice.printMessage("You hadn't stock any of the items to inventory...");
+                    return false;
+                }
+            }
+            else // There is no concern of weight
+            {
+                inventory.items.get(indexOfItem).value+=itemInstancesToStack;
+                inventory.currentWeightCapacity += totalItemAndCountPairWeightCapacity;
+                return true;
+            }
         }
         else
+        {
             return false;
+        }
     }
 
     static public void addItemToInventory(Item item) {
         if (inventory.currentWeightCapacity + item.getItemWeight() > inventory.totalWeightCapacity) {
-            OutputDevice.printMessage("Cannot add this item to your inventory. It would exceed the total weight capacity of " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
+            OutputDevice.printMessage("Cannot add this item to your inventory. It would exceed the total weight capacity. Current Weight Cappacity: " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
             return;
         }
 
         // Try stacking the item
-        boolean itemHasBeenStacked = stackItemToInventory(item);
+        boolean itemHasBeenStacked = stackItemToInventory(item, 1);
 
         if (inventory.usedSlots >= inventory.totalSlots && !itemHasBeenStacked) {
             OutputDevice.printMessage("Cannot add this item to your inventory. All " + inventory.totalSlots + "/" + inventory.totalSlots + " slots are occupied.");
@@ -107,6 +173,33 @@ public class InventoryController {
             // The item is not stackable but can still be added to its own slot
             inventory.items.add(new ItemAndCountPair(item, 1));
             inventory.currentWeightCapacity += item.getItemWeight();
+            inventory.usedSlots++;
+            OutputDevice.printMessage("Item added to inventory in its own slot.");
+        }
+    }
+
+    static public void addItemToInventory(ItemAndCountPair itemAndCountPair){
+        // get Items Weight. How many instances * weight of an instance
+        float totalItemAndCountPairWeight = itemAndCountPair.value * itemAndCountPair.key.getItemWeight();
+        if (inventory.currentWeightCapacity + totalItemAndCountPairWeight > inventory.totalWeightCapacity) {
+            OutputDevice.printMessage("Cannot add this many items to your inventory. It would exceed the total weight capacity. Current weight capacity: " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
+            return;
+        }
+
+        // Try stacking the item
+        boolean itemHasBeenStacked = stackItemToInventory(itemAndCountPair.key, itemAndCountPair.value);
+
+        if (inventory.usedSlots >= inventory.totalSlots && !itemHasBeenStacked) {
+            OutputDevice.printMessage("Cannot add this item to your inventory. All " + inventory.totalSlots + "/" + inventory.totalSlots + " slots are occupied.");
+            return;
+        }
+
+        if (itemHasBeenStacked) {
+            OutputDevice.printMessage("Item has been stacked to your inventory.");
+        } else {
+            // The item is not stackable but can still be added to its own slot
+            inventory.items.add(itemAndCountPair);
+            inventory.currentWeightCapacity += totalItemAndCountPairWeight;
             inventory.usedSlots++;
             OutputDevice.printMessage("Item added to inventory in its own slot.");
         }
@@ -197,6 +290,7 @@ public class InventoryController {
                 {
                     Potion potionToBeConsumed =  (Potion) itemFromInventory; // Casting Item to Potion so it can be passed as Potion, not Item, to other methods
                     inventory.character.drinkPotion(potionToBeConsumed);
+                    ExploreController.updateAllUI();
                     // Delete potion instance from inventory. Case where it is and it is not stacked.
                     removeItemFromInventory(itemFromInventory);
                     potionHasBeenConsumed = true;

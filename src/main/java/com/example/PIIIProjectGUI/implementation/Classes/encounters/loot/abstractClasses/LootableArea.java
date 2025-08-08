@@ -5,6 +5,7 @@ import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.implementation.interfaces.LootableAreaInterface;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
 
 import java.util.ArrayList;
@@ -12,19 +13,19 @@ import java.util.List;
 
 public abstract class LootableArea implements LootableAreaInterface {
     //Data
-    protected List<Item> loot = new ArrayList<>();
+    public List<ItemAndCountPair> loot = new ArrayList<>();
     protected InventoryController inventory;
 
     @Override
     public void lootItems() {
-        for (Item item : loot) { // while iterating the items in the loot.
+        for (ItemAndCountPair item : loot) { // while iterating the items in the loot.
             OutputDevice.printMessage("                  =-=-=-=-ITEM FOUND-=-=-=-=");
             OutputDevice.printObject(item);
 
             Boolean queryAnswer = yesNoQuery.query("Take it?");
                 if(queryAnswer)
                 {
-                    inventory.addItemToInventory(item);
+                    inventory.addItemToInventory(item.key);
                     break;
                 }
                 else if(!queryAnswer)

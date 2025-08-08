@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.LootScreenController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-background-color: #ffffff;"
+      prefWidth="400"
+      prefHeight="600">
+
+    <!-- Outer padding -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Chest Image -->
+    <ImageView fx:id="chestImage"
+               fitHeight="300"
+               fitWidth="300"
+               preserveRatio="true" />
+
+    <!-- Open Button -->
+    <Button fx:id="openButton"
+            text="Open"
+            style="-fx-font-size: 16px; -fx-padding: 10 20 10 20;" />
+
+    <!-- Item container for looted items -->
+    <VBox fx:id="itemContainer"
+          spacing="10"
+          alignment="TOP_LEFT"
+          prefWidth="360"
+          style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc; -fx-border-radius: 5;">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+    </VBox>
+
+</VBox>

@@ -2,9 +2,11 @@ package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
 import com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController;
 import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
+import com.example.PIIIProjectGUI.GUI.GUIControllers.LootScreenController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,7 +42,10 @@ public class Explore {
         ExploreController.run(character);
     }
 
-    public ExploreController loadBattleScreen(Stage stage, Character character) {
+    public ExploreController loadBattleScreen() {
+        Stage stage = new Stage();
+        ExploreController.setStage(stage);
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/battle-view.fxml"));
             Parent root = loader.load();
@@ -51,6 +56,29 @@ public class Explore {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Battle!");
+            stage.show();
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LootScreenController loadLootScreen()
+    {
+        Stage stage = new Stage();
+        LootScreenController.setStage(stage);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/loot-screen.fxml"));
+            Parent root = loader.load();
+
+            LootScreenController controller = loader.getController();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Loot!");
             stage.show();
 
             return controller;

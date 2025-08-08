@@ -8,6 +8,7 @@ import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.CSVInputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ClassInstantiationReference;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.utilities.Pair;
 import com.example.PIIIProjectGUI.utilities.Randomness;
 
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
 
 public class PotionChest extends LootableArea {
     // Temporary Data
-    List<Item> temporaryPotionList = new ArrayList<Item>();
+    List<ItemAndCountPair> temporaryPotionList = new ArrayList<ItemAndCountPair>();
 
     public PotionChest(InventoryController inventoryReference) {
         initializeChestWithRandomPotion();
@@ -38,7 +39,9 @@ public class PotionChest extends LootableArea {
         Pair<String,Integer> randomPotion = Randomness.getRandomElementFromList(specificItemQualityPotionList);
         String potionClassName = randomPotion.getFirst();
         Potion randomPotionInstance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.potions", potionClassName);
-        temporaryPotionList.add(randomPotionInstance);
+        // Introduce it within an ItemCountPair, in case for multiple instance loot drops
+        ItemAndCountPair itemAndCountPairPotion = new ItemAndCountPair(randomPotionInstance,1);
+        temporaryPotionList.add(itemAndCountPairPotion);
     }
 
     @Override

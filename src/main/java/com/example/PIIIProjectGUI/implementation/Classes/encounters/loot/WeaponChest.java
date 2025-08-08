@@ -8,6 +8,7 @@ import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.CSVInputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ClassInstantiationReference;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.utilities.Pair;
 import com.example.PIIIProjectGUI.utilities.Randomness;
 
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 
 public class WeaponChest extends LootableArea {
     // Temporary Data
-    List<Item> temporaryWeaponList = new ArrayList<Item>();
+    List<ItemAndCountPair> temporaryWeaponList = new ArrayList<ItemAndCountPair>();
 
     public WeaponChest(InventoryController inventoryReference) {
         initializeChestWithRandomWeapon();
@@ -35,7 +36,8 @@ public class WeaponChest extends LootableArea {
         Pair<String,Integer> randomWeapon = Randomness.getRandomElementFromList(specificItemQualityWeaponList);
         String weaponClassName = randomWeapon.getFirst();
         Weapon randomWeaponInstance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.weapons", weaponClassName);
-        temporaryWeaponList.add(randomWeaponInstance);
+        ItemAndCountPair itemAndCountPairWeapon = new ItemAndCountPair(randomWeaponInstance,1);
+        temporaryWeaponList.add(itemAndCountPairWeapon);
     }
 
     @Override

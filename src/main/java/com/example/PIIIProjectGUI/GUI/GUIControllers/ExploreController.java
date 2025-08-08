@@ -7,6 +7,8 @@ import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstrac
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,17 +46,30 @@ public class ExploreController {
         return battleStage;
     }
 
-
-    static private void updateEnemyUIData(){
-         for(int i = 0; i < enemies.toArray().length; i++)
-         {
-             enemiesUI.get(i).correspondingEnemy.health = enemies.get(i).health;
-             enemiesUI.get(i).updateHealthBar();
-         }
+    static public void setStage(Stage givenStage){
+        battleStage = givenStage;
     }
 
-    static private void updateCharacterUI(){
-         characterUI.updateHealthBar();
+
+    static private void updateEnemyUIData(){
+        Platform.runLater(() -> {
+            for(int i = 0; i < enemies.toArray().length; i++)
+            {
+                enemiesUI.get(i).correspondingEnemy.health = enemies.get(i).health;
+                enemiesUI.get(i).updateHealthBar();
+            }
+        });
+    }
+
+    static void updateCharacterUI() {
+        Platform.runLater(() -> {
+            characterUI.updateHealthBar();
+        });
+    }
+
+    static public void updateAllUI(){
+        updateCharacterUI();
+        updateEnemyUIData();
     }
 
 
@@ -78,10 +93,9 @@ public class ExploreController {
             {
                 randomLootableArea = new PotionChest(explore.inventoryController);
             }
-            lootLootableArea(randomLootableArea);
-            //Free up memory by removing references to the instanced object, using null.
-            //This makes randomLootableArea be garbage-collected.
-            randomLootableArea = null;
+
+            LootScreenController.setLootableArea(randomLootableArea);
+            explore.loadLootScreen();
         }
         else if(explore.runPattern[explore.runStageCounter]==1) // Encounter a battle
         {
@@ -91,7 +105,7 @@ public class ExploreController {
             // Run GUI Battle
             enemies = battle.enemyArmy;
             enemiesUI.clear(); // reset the enemiesUI
-            explore.loadBattleScreen(battleStage,explore.character);
+            explore.loadBattleScreen();
             explore.battleCounter++;
         }
         explore.runStageCounter++;
@@ -250,12 +264,13 @@ public class ExploreController {
         VBox container;
         ProgressBar hpBar;
         StackPane hpStack;
+        Label hpLabel;
 
         CharacterUI() {
             this.hpBar = new ProgressBar(GameState.character.health / GameState.character.totalHealth);
             hpBar.setPrefWidth(120);
             Label nameLabel = new Label(GameState.character.name);
-            Label hpLabel = new Label((float)GameState.character.health + " / " + (float)GameState.character.totalHealth);
+            hpLabel = new Label((float)GameState.character.health + " / " + (float)GameState.character.totalHealth);
             hpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: black;");
 
             hpStack = new StackPane(hpBar, hpLabel);
@@ -266,7 +281,7 @@ public class ExploreController {
 
         void updateHealthBar()
         {
-            Label hpLabel = (Label) hpStack.getChildren().get(1);
+            hpLabel = (Label) hpStack.getChildren().get(1);
 
             if(GameState.character.health <= 0)
             {
