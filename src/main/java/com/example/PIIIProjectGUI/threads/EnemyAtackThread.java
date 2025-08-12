@@ -37,10 +37,8 @@ public class EnemyAtackThread extends Thread{
             }
             if(character.health<=0) // character dies
             {
-                character.alive=false;
-                OutputDevice.printMessage("YOU DIED");
+                character.characterDeath();
                 ongoingBattle.set(false);
-                System.exit(0);
             }
             OutputDevice.printMessage("-------------------------------------------------------");
     }

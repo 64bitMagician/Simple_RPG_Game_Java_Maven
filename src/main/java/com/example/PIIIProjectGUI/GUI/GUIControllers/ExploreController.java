@@ -8,6 +8,7 @@ import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.layout.*;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,19 +54,16 @@ public class ExploreController {
 
 
     static private void updateEnemyUIData(){
-        Platform.runLater(() -> {
+
             for(int i = 0; i < enemies.toArray().length; i++)
             {
                 enemiesUI.get(i).correspondingEnemy.health = enemies.get(i).health;
                 enemiesUI.get(i).updateHealthBar();
             }
-        });
     }
 
     static void updateCharacterUI() {
-        Platform.runLater(() -> {
-            characterUI.updateHealthBar();
-        });
+        characterUI.updateHealthBar();
     }
 
     static public void updateAllUI(){
@@ -73,13 +72,12 @@ public class ExploreController {
     }
 
 
+
     static public void run(Character character){
         if (explore.runStageCounter == explore.runTotalStages)
         {
-            OutputDevice.printMessage("You beat all the monsters");
-            OutputDevice.printMessage("     YOU WON!");
-            OutputDevice.printMessage("    The End...");
-            System.exit(0);
+            explore.showVictoryScreen();
+            return;
         }
         if(explore.runPattern[explore.runStageCounter]==0) // Encounter a lootable area
         {
@@ -109,13 +107,6 @@ public class ExploreController {
             explore.battleCounter++;
         }
         explore.runStageCounter++;
-    }
-
-    static private void lootLootableArea(LootableArea lootableArea){
-        OutputDevice.printMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        lootableArea.initializingMessage();
-        lootableArea.lootItems();
-        OutputDevice.printMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     public void drawBattle() {
@@ -158,30 +149,6 @@ public class ExploreController {
         updateEnemyUIData();
     }
 
-//    @FXML
-//    private void handleselectedAttack() {
-//        if (selectedEnemy == null) {
-//            log("Select an enemy to attack.");
-//            return;
-//        }
-//
-//        int damage = 10 + (int) (Math.random() * 10);
-//        selectedEnemy.takeDamage(damage);
-//        log("You attacked " + selectedEnemy.name + " for " + damage + " damage.");
-//
-//        if (selectedEnemy.hp <= 0) {
-//            battleArea.getChildren().remove(selectedEnemy.container);
-//            enemies.remove(selectedEnemy);
-//            log(selectedEnemy.name + " was defeated!");
-//            selectedEnemy = null;
-//        }
-//
-//        if (enemies.isEmpty()) {
-//            log("You won the battle!");
-//            // Trigger win or continue logic here
-//        }
-//    }
-
     @FXML
     private void handleExitGame() {
         log("Exiting game...");
@@ -217,12 +184,6 @@ public class ExploreController {
             container.setOnMouseClicked(e -> select());
 
             highlight(false);
-        }
-
-        void takeDamage(int amount) {
-            correspondingEnemy.health -= amount;
-            if (correspondingEnemy.health < 0) correspondingEnemy.health = 0;
-            hpBar.setProgress(correspondingEnemy.health / 100.0);
         }
 
         void updateHealthBar()

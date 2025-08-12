@@ -7,6 +7,16 @@ import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractC
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.interfaces.LivingEntity;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class Character implements LivingEntity {
     public String name;
@@ -79,9 +89,35 @@ public class Character implements LivingEntity {
         }
     }
 
-    public void characterDeath(){
+    public void characterDeath() {
         this.alive = false;
-        OutputDevice.printMessage("You Died");
-        System.exit(0);
+
+        javafx.application.Platform.runLater(() -> {
+            // Close all current stages
+            for (var window : javafx.stage.Window.getWindows()) {
+                if (window instanceof Stage) {
+                    ((Stage) window).close();
+                }
+            }
+
+            try {
+                // Load "You Died" FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/youDied-view.fxml"));
+                Scene scene = new Scene(loader.load());
+                Stage deathStage = new Stage();
+                deathStage.setTitle("Game Over");
+                deathStage.setScene(scene);
+                deathStage.show();
+
+                // Pause for 3 seconds before exiting
+                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                delay.setOnFinished(e -> System.exit(0));
+                delay.play();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
 }

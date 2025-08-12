@@ -238,78 +238,6 @@ public class InventoryController {
             OutputDevice.printMessage("No such item exists in your inventory");
     }
 
-    static private void equipWeapon(String weaponName){
-        weaponName = weaponName.toLowerCase();
-        boolean weaponHasBeenEquipped = false;
-        // look for weapon within inventory based on name
-        for(ItemAndCountPair itemPair : inventory.items)
-        {
-            //if weaponName equals items name then equip weapon
-            //first get item's name
-            Item itemFromInventory = itemPair.key;
-            String itemFromInventoryName = itemFromInventory.getItemName();
-
-            if (weaponName.equals(itemFromInventoryName.toLowerCase()))
-            {
-                // Verify that item is a weapon
-                // fetch the item as a Weapon not as an Item
-                if(itemFromInventory instanceof Weapon)
-                {
-                    inventory.character.equipWeapon((Weapon) itemFromInventory);
-                    weaponHasBeenEquipped = true;
-                    OutputDevice.printMessage(itemFromInventoryName + " has been eqquiped.");
-                    break;
-                }
-                else // Item is not a weapon
-                {
-                    OutputDevice.printMessage("Your input matches an item from your inventory, but it is not a weapon...");
-                }
-            }
-        }
-        if (weaponHasBeenEquipped == false)
-        {
-            OutputDevice.printMessage("Your input does not match to any weapon in your inventory!");
-        }
-    }
-
-    static private void usePotion(String potionName){
-        potionName = potionName.toLowerCase();
-        boolean potionHasBeenConsumed = false;
-        // look for potion within inventory based on name
-        for(ItemAndCountPair itemPair : inventory.items)
-        {
-            //first get item's name
-            Item itemFromInventory = itemPair.key;
-            String itemFromInventoryName = itemFromInventory.getItemName();
-            //if potionName equals item's name then consume potion
-            if (potionName.equals(itemFromInventoryName.toLowerCase()))
-            {
-                // Verify that item is a potion
-                // fetch the item as a Potion not as an Item
-                if(itemFromInventory instanceof Potion)
-                {
-                    Potion potionToBeConsumed =  (Potion) itemFromInventory; // Casting Item to Potion so it can be passed as Potion, not Item, to other methods
-                    inventory.character.drinkPotion(potionToBeConsumed);
-                    ExploreController.updateAllUI();
-                    // Delete potion instance from inventory. Case where it is and it is not stacked.
-                    removeItemFromInventory(itemFromInventory);
-                    potionHasBeenConsumed = true;
-                    OutputDevice.printMessage(itemFromInventoryName + " has been consumed.");
-                    break;
-                }
-                else // Item is not a potion
-                {
-                    OutputDevice.printMessage("Your input matches an item from your inventory, but it is not a potion...");
-                    break;
-                }
-            }
-        }
-        if (potionHasBeenConsumed == false)
-        {
-            OutputDevice.printMessage("Your input does not match to any potion in your inventory!");
-        }
-    }
-
     public void updateDisplay(List<ItemAndCountPair> items) {
         if (itemsContainer == null) {
             OutputDevice.printMessage("itemsContainer is not injected. Check FXML fx:id.");
@@ -377,6 +305,7 @@ public class InventoryController {
                 alert.setTitle("Use Potion");
                 if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
                     inventory.character.drinkPotion(potion);
+                    ExploreController.updateAllUI();
                     removeItemFromInventory(potion);
                     OutputDevice.printMessage(potion.getItemName() + " used.");
                     updateDisplay(inventory.items);

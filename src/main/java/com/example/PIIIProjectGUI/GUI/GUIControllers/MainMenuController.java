@@ -38,7 +38,16 @@ public class MainMenuController {
 
     @FXML
     public void onShowStats(ActionEvent e) {
-        GameState.character.displayStats();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/playerStats-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Player Stats");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

@@ -6,13 +6,17 @@ import com.example.PIIIProjectGUI.GUI.GUIControllers.LootScreenController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
-import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Explore {
 
@@ -36,6 +40,38 @@ public class Explore {
         initializeBattles(character);
         runStageCounter=0;
         battleCounter=0;
+    }
+
+    public void showVictoryScreen() {
+        Platform.runLater(() -> {
+            // Close all current stages
+
+            var windowsCopy = new ArrayList<>(javafx.stage.Window.getWindows());
+            for (var window : windowsCopy) {
+                if (window instanceof Stage) {
+                    ((Stage) window).close();
+                }
+            }
+
+            try {
+                // Load "Victory" FXML
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/victory.fxml"));
+                Scene scene = new Scene(loader.load());
+                Stage victoryStage = new Stage();
+                victoryStage.setTitle("Victory!");
+                victoryStage.setScene(scene);
+                victoryStage.show();
+
+                // Pause for 3 seconds before exiting
+                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                delay.setOnFinished(e -> System.exit(0));
+                delay.play();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void run(Character character){

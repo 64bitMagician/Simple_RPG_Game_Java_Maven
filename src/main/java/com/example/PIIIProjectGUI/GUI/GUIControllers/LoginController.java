@@ -2,7 +2,11 @@ package com.example.PIIIProjectGUI.GUI.GUIControllers;
 
 import com.example.PIIIProjectGUI.GUI.utilities.GameState;
 import com.example.PIIIProjectGUI.app.Game;
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
+import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Fists;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.HolySword;
+import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -73,7 +77,12 @@ public class LoginController {
         }
         else if(GameState.args[0].equals("cheatMode"))
         {
-            GameState.character = new com.example.PIIIProjectGUI.implementation.Classes.player.Character("Cheater", 999, 999, new HolySword());
+            //Character, inventory and exploration initialization
+            Weapon fists = new Fists();
+            GameState.character = new com.example.PIIIProjectGUI.implementation.Classes.player.Character("Cheater", 999, 999, fists);
+            GameState.inventory = new Inventory(GameState.character);
+            GameState.inventory.inventoryController.addItemToInventory(fists);
+            GameState.exploration = new Explore(GameState.character, GameState.inventory.inventoryController);
             // Transition to Main Menu Screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
             Scene scene = new Scene(loader.load());
