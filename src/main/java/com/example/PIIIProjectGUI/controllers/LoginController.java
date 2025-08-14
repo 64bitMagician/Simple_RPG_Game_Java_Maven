@@ -1,11 +1,9 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.app.Game;
+import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Fists;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.HolySword;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

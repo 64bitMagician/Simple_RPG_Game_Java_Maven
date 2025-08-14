@@ -1,8 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
-import com.example.PIIIProjectGUI.implementation.interfaces.Item;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.interfaces.LootableAreaInterface;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;

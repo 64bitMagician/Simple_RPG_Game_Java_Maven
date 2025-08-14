@@ -1,6 +1,6 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
+import com.example.PIIIProjectGUI.GameState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;

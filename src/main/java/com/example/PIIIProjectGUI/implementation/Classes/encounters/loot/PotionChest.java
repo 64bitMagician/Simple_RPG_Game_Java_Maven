@@ -1,10 +1,8 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.loot;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
-import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.CSVInputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ClassInstantiationReference;

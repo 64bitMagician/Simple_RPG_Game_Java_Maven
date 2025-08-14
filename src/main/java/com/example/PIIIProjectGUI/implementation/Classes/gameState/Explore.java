@@ -1,12 +1,11 @@
 package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController;
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
-import com.example.PIIIProjectGUI.GUI.GUIControllers.LootScreenController;
+import com.example.PIIIProjectGUI.controllers.ExploreController;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
+import com.example.PIIIProjectGUI.controllers.LootScreenController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
-import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

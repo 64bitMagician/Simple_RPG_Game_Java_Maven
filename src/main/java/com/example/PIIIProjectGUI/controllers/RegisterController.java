@@ -1,4 +1,4 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

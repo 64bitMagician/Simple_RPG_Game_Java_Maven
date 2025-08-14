@@ -1,8 +1,6 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.app.Game;
-
+import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Club;
@@ -20,8 +18,6 @@ public class CharacterCreationController {
 
     @FXML
     private TextField nameField;
-
-    private Game game;
 
     public static void createCharacter(String name) {
         //Default Items

@@ -1,7 +1,6 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.app.Game;
+import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.SaveInventory;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.RetreiveSavedInventory;
 import javafx.event.ActionEvent;

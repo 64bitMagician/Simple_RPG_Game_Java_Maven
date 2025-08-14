@@ -1,6 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.Classes.gameState;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.exceptions.NoSavedInventoryStateException;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.DeathPotion;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.GreatHealthPotion;
@@ -57,9 +57,9 @@ public class RetreiveSavedInventory {
         //Adding Weapons To Inventory
         list = CSVInputDevice.readIntegerStringCSV("src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryWeapons.csv");
         for (Pair<Integer, String> pair : list) {
-            int count = pair.getFirst();
+            int quantity = pair.getFirst();
             String className = pair.getSecond();
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < quantity; i++) {
                 // Pass the correct package path
                 Weapon instance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.weapons", className);
                 inventory.addItemToInventory(instance);
@@ -69,9 +69,9 @@ public class RetreiveSavedInventory {
         //Adding Potions To Inventory
         list = CSVInputDevice.readIntegerStringCSV("src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryPotions.csv");
         for (Pair<Integer, String> pair : list) {
-            int count = pair.getFirst();
+            int quantity = pair.getFirst();
             String className = pair.getSecond();
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < quantity; i++) {
                 // Pass the correct package path
                 Potion instance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.potions", className);
                 inventory.addItemToInventory(instance);

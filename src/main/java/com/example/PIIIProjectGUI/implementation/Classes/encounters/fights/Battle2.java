@@ -1,8 +1,7 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.fights;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.Goblin;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 

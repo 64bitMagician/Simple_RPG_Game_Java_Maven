@@ -1,32 +1,25 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
+import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
-import com.example.PIIIProjectGUI.inputoutput.InputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.management.Query;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class InventoryController {

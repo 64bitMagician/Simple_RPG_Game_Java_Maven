@@ -1,9 +1,5 @@
-package com.example.PIIIProjectGUI.GUI.utilities;
+package com.example.PIIIProjectGUI;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Club;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Fists;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;

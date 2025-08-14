@@ -6,7 +6,7 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER" spacing="10"
-      fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.WelcomeController">
+      fx:controller="com.example.PIIIProjectGUI.controllers.WelcomeController">
 
     <ImageView fx:id="welcomeImage" fitWidth="400" fitHeight="300" preserveRatio="true"/>
 </VBox>

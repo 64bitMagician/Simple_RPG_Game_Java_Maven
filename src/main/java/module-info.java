@@ -5,7 +5,8 @@ module com.example.PIIIProjectGUI {
     requires java.management;
 
     opens com.example.PIIIProjectGUI to javafx.fxml;
-    opens com.example.PIIIProjectGUI.GUI.GUIControllers to javafx.fxml;
+    opens com.example.PIIIProjectGUI.controllers to javafx.fxml;
 
-    exports com.example.PIIIProjectGUI.GUI.GUIControllers;
+    exports com.example.PIIIProjectGUI.controllers;
+    exports com.example.PIIIProjectGUI;
 }

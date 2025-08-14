@@ -1,18 +1,14 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
+import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.PotionChest;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.WeaponChest;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
-import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -20,7 +16,6 @@ import javafx.scene.layout.*;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;

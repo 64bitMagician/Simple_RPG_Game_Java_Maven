@@ -1,12 +1,7 @@
-package com.example.PIIIProjectGUI.GUI.GUIControllers;
+package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.app.Game;
 import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
-import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
-import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

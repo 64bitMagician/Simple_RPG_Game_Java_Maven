@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController">
+            fx:controller="com.example.PIIIProjectGUI.controllers.ExploreController">
 
     <!-- Left: Action Buttons -->
     <left>

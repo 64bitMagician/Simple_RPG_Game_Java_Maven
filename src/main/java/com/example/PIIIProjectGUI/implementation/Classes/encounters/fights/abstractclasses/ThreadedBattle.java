@@ -1,26 +1,19 @@
 package com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses;
 
-import com.example.PIIIProjectGUI.GUI.GUIControllers.ExploreController;
-import com.example.PIIIProjectGUI.GUI.GUIControllers.InventoryController;
-import com.example.PIIIProjectGUI.GUI.utilities.GameState;
-import com.example.PIIIProjectGUI.UI.UIState;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.controllers.ExploreController;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.implementation.interfaces.BattleInterface;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.threads.EnemyAtackThread;
 import com.example.PIIIProjectGUI.threads.CharacterAtackThread;
-import com.example.PIIIProjectGUI.utilities.yesNoQuery;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
