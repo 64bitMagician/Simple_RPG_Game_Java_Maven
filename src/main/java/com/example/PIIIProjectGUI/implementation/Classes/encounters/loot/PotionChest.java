@@ -36,7 +36,7 @@ public class PotionChest extends LootableArea {
         potionsListSteam.filter(item -> item.getSecond() == itemQuality).forEach(item -> specificItemQualityPotionList.add(item));
         Pair<String,Integer> randomPotion = Randomness.getRandomElementFromList(specificItemQualityPotionList);
         String potionClassName = randomPotion.getFirst();
-        Potion randomPotionInstance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.potions", potionClassName);
+        Potion randomPotionInstance = ClassInstantiationReference.createPotionInstance(potionClassName);
         // Introduce it within an ItemCountPair, in case for multiple instance loot drops
         ItemAndCountPair itemAndCountPairPotion = new ItemAndCountPair(randomPotionInstance,1);
         temporaryPotionList.add(itemAndCountPairPotion);

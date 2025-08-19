@@ -33,7 +33,7 @@ public class WeaponChest extends LootableArea {
         weaponsListSteam.filter(item -> item.getSecond() == itemQuality).forEach(item -> specificItemQualityWeaponList.add(item));
         Pair<String,Integer> randomWeapon = Randomness.getRandomElementFromList(specificItemQualityWeaponList);
         String weaponClassName = randomWeapon.getFirst();
-        Weapon randomWeaponInstance = ClassInstantiationReference.createInstance("com.example.PIIIProjectGUI.implementation.Classes.items.weapons", weaponClassName);
+        Weapon randomWeaponInstance = ClassInstantiationReference.createWeaponInstance(weaponClassName);
         ItemAndCountPair itemAndCountPairWeapon = new ItemAndCountPair(randomWeaponInstance,1);
         temporaryWeaponList.add(itemAndCountPairWeapon);
     }

@@ -16,9 +16,6 @@
     <Label text="Email:"/>
     <TextField fx:id="emailField"/>
 
-    <Label text="Name:"/>
-    <TextField fx:id="nameField"/>
-
     <Label text="Password:"/>
     <PasswordField fx:id="passwordField"/>
 

@@ -19,34 +19,37 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Character implements LivingEntity {
+    public int characterID;
     public String name;
-    public float totalHealth;
     public float health;
-    public float damageMultiplier;
+    public float totalHealth;
     public boolean alive;
     public Weapon equippedWeapon;
+    public float damageMultiplier;
     public float totalDamage;
 
     //Constructor
-    public Character(String name,int health,int damageMultiplier, Weapon startingWeapon) {
+    public Character(int characterID, String name,float health, float totalHealth, float damageMultiplier, Weapon equippedWeapon) {
+        this.characterID = characterID;
         this.name = name;
-        this.totalHealth = health;
         this.health = health;
-        this.damageMultiplier = damageMultiplier;
+        this.totalHealth = totalHealth;
         this.alive = true;
-        this.equippedWeapon = startingWeapon;
+        this.equippedWeapon = equippedWeapon;
+        this.damageMultiplier = damageMultiplier;
         this.totalDamage = equippedWeapon.weaponDamage*damageMultiplier;
     }
 
     //Copy Constructor
     public Character(Character other) {
-        this.name = other.name;
-        this.totalHealth = other.totalHealth;
-        this.health = other.health;
-        this.damageMultiplier = other.damageMultiplier;
-        this.alive = other.alive;
-        this.equippedWeapon = other.equippedWeapon;
-        this.totalDamage = other.totalDamage;
+        this.characterID = characterID;
+        this.name = name;
+        this.health = health;
+        this.totalHealth = totalHealth;
+        this.alive = true;
+        this.equippedWeapon = equippedWeapon;
+        this.damageMultiplier = damageMultiplier;
+        this.totalDamage = equippedWeapon.weaponDamage*damageMultiplier;
     }
 
     //IMPLEMENTED METHODS

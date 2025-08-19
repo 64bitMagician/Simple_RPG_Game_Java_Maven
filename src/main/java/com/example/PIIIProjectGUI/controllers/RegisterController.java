@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.controllers;
 
+import com.example.PIIIProjectGUI.database.AccountsDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,16 +23,10 @@ public class RegisterController {
     @FXML
     private void handleRegister() {
         String email = emailField.getText().trim();
-        String name = nameField.getText().trim();
         String password = passwordField.getText();
 
         if (!isValidEmail(email)) {
             messageLabel.setText("Invalid email.");
-            return;
-        }
-
-        if (name.isEmpty()) {
-            messageLabel.setText("Name cannot be empty.");
             return;
         }
 
@@ -40,18 +35,27 @@ public class RegisterController {
             return;
         }
 
-        try {
-            saveUser(email, name, password);
+        // Perform DB Registration
+
+        String registrationStatusMessage = saveUser(email, password);
+
+        // Update message label and UI according to Registration Status
+
+        if(registrationStatusMessage.equals("Registration Successful!"))
+        {
             messageLabel.setStyle("-fx-text-fill: green");
             messageLabel.setText("Registration successful!");
-
             // Clear fields
             emailField.clear();
-            nameField.clear();
             passwordField.clear();
-        } catch (IOException e) {
-            messageLabel.setText("Error saving data.");
-            e.printStackTrace();
+        }
+        else if (registrationStatusMessage.equals("Email already exists."))
+        {
+            messageLabel.setText("Email already exists.");
+        }
+        else if (registrationStatusMessage.equals("Something went wrong."))
+        {
+            messageLabel.setText("Something went wrong");
         }
     }
 
@@ -70,9 +74,7 @@ public class RegisterController {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
-    private void saveUser(String email, String name, String password) throws IOException {
-        FileWriter writer = new FileWriter("users.txt", true); // Append mode
-        writer.write(String.format("%s,%s,%s%n", email, name, password));
-        writer.close();
+    private String saveUser(String email, String password) {
+        return AccountsDAO.register(email, password);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.database.CharacterDAO;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Club;
@@ -20,11 +21,14 @@ public class CharacterCreationController {
     private TextField nameField;
 
     public static void createCharacter(String name) {
+        // Get the ID of the Next Character
+        int characterID = CharacterDAO.getNextCharacterID();
+
         //Default Items
         Weapon fists = new Fists();
         Weapon startingWeapon = new Club();
 
-        GameState.character = new Character(name, 500, 1, startingWeapon);
+        GameState.character = new Character(characterID , name, 500, 500, 1, startingWeapon);
 
         GameState.inventory = new Inventory(GameState.character);
         GameState.exploration = new Explore(GameState.character, GameState.inventory.inventoryController);
@@ -45,6 +49,7 @@ public class CharacterCreationController {
         try {
             // Create Character
             createCharacter(name);
+            GameState.saveGame();
             // Transition to Main Menu Screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
             Scene scene = new Scene(loader.load());

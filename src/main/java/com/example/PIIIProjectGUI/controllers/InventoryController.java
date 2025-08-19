@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.exceptions.NullException;
 import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
@@ -8,6 +9,7 @@ import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
+import com.google.protobuf.ByteString;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -147,6 +149,9 @@ public class InventoryController {
     }
 
     static public void addItemToInventory(Item item) {
+        if (item==null)
+            new NullException("The 'item' parameter in method addItemToInventory, from InventoryController.java is null");
+
         if (inventory.currentWeightCapacity + item.getItemWeight() > inventory.totalWeightCapacity) {
             OutputDevice.printMessage("Cannot add this item to your inventory. It would exceed the total weight capacity. Current Weight Cappacity: " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
             return;

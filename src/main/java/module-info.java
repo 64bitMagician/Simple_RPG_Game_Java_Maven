@@ -3,6 +3,8 @@ module com.example.PIIIProjectGUI {
     requires javafx.fxml;
     requires java.desktop;
     requires java.management;
+    requires java.sql;
+    requires com.google.protobuf;
 
     opens com.example.PIIIProjectGUI to javafx.fxml;
     opens com.example.PIIIProjectGUI.controllers to javafx.fxml;
