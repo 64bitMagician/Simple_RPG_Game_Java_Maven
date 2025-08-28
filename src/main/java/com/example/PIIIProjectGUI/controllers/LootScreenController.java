@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.controllers;
 
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
+import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.abstractClasses.LootableArea;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import javafx.fxml.FXML;
@@ -116,6 +117,10 @@ public class LootScreenController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                //Increment stage progress.
+                GameState.explore.runStageCounter++;
+                GameState.saveGame();
+
                 // Close the popup (automatic)
                 // Close the loot screen stage
                 if (lootStage != null) {

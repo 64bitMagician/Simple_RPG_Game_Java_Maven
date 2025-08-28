@@ -1,8 +1,7 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.SaveInventory;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.RetreiveSavedInventory;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +31,7 @@ public class MainMenuController {
 
     @FXML
     public void onExplore(ActionEvent e) {
-        GameState.exploration.run(GameState.character);
+        GameState.explore.run(GameState.character);
     }
 
     @FXML
@@ -50,17 +49,10 @@ public class MainMenuController {
     }
 
     @FXML
-    public void onRetrieveInventory(ActionEvent e) {
-        RetreiveSavedInventory.run(GameState.inventory.inventoryController);
-    }
-
-    @FXML
-    public void onSaveInventory(ActionEvent e) {
-        SaveInventory.run(GameState.inventory);
-    }
-
-    @FXML
     public void onExit(ActionEvent e) {
+        // Saving Game Before Existing
+        OutputDevice.printMessage("Saving game before exiting...");
+        GameState.saveGame();
         System.exit(0);
     }
 }

@@ -1,7 +1,8 @@
 package com.example.PIIIProjectGUI.threads;
 
-import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
-import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
+import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.abstractClasses.Enemy;
+import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -28,18 +29,14 @@ public class EnemyAtackThread extends Thread{
 
 
     public void enemyAttacks() {
-            OutputDevice.printMessage("-------------------------------------------------------");
             synchronized (this) {
-                OutputDevice.printMessage("The " + (enemyIndex+1) + " enemy, the " + enemy.name + ", from the army attacks");
                 character.health-=enemy.damage;
-                OutputDevice.printMessage(character.name + " takes "+ enemy.damage + " damage.");
-                OutputDevice.printMessage(character.returnHealth());
             }
             if(character.health<=0) // character dies
             {
-                character.characterDeath();
                 ongoingBattle.set(false);
+                character.characterDeathUI();
+                GameState.gameProgressReset();
             }
-            OutputDevice.printMessage("-------------------------------------------------------");
     }
 }

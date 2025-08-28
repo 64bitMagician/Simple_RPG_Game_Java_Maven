@@ -1,10 +1,11 @@
 package com.example.PIIIProjectGUI.database;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
-import com.example.PIIIProjectGUI.implementation.Classes.items.potions.abstractClasses.Potion;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
+import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.implementation.classes.items.potions.abstractClasses.Potion;
+import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ClassInstantiationReference;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 
@@ -56,6 +57,8 @@ public class InventoryDAO {
     }
 
     public static void clearInventory(int characterID) {
+        OutputDevice.printMessage("Clearing Inventory Item Records so they can get replaced by the current local inventory items...");
+
         String sql = "DELETE FROM inventory WHERE character_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -86,13 +89,19 @@ public class InventoryDAO {
             stmt.setInt(4, quantity);
 
             stmt.executeUpdate();
+
+            OutputDevice.printMessage("     - Added " + "x" + quantity + " " + itemName + "(" + itemType + ")" + " " +"to character with ID: " + characterID + "...");
         } catch (SQLException e) {
+            OutputDevice.printMessage("!!!COULD NOT ADD ITEM TO INVENTORY TABLE!!!");
             e.printStackTrace();
         }
     }
 
 
     public static void loadInventory(int characterID) {
+        // Instantiate new inventory instance where to store the saved inventory data
+        GameState.inventory = new Inventory(GameState.character);
+
         String sql = "SELECT item_name, item_type, quantity FROM inventory WHERE character_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();

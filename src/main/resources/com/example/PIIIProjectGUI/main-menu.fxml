@@ -8,7 +8,5 @@
     <Button text="Open Your Inventory" onAction="#onInventory"/>
     <Button text="Explore" onAction="#onExplore"/>
     <Button text="Show Player Stats" onAction="#onShowStats"/>
-    <Button text="Retrieve Saved Inventory" onAction="#onRetrieveInventory"/>
-    <Button text="Save Inventory" onAction="#onSaveInventory"/>
     <Button text="Exit" onAction="#onExit"/>
 </VBox>

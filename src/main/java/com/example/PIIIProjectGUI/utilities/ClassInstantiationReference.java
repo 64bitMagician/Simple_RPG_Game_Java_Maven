@@ -47,7 +47,7 @@
         public static <T> T createWeaponInstance(String className) {
             try {
                 // Load the class dynamically
-                String classPath = "src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryWeapons.csv" + "." + className;
+                String classPath = "com.example.PIIIProjectGUI.implementation.classes.items.weapons" + "." + className;
                 Class<?> loadedClass = Class.forName(classPath);
 
                 // Create and return an instance of the class
@@ -62,7 +62,7 @@
         public static <T> T createPotionInstance(String className) {
             try {
                 // Load the class dynamically
-                String classPath = "src/main/java/com/example/PIIIProjectGUI/dataFiles/gameStateFiles/savedInventoryPotions.csv" + "." + className;
+                String classPath = "com.example.PIIIProjectGUI.implementation.classes.items.potions" + "." + className;
                 Class<?> loadedClass = Class.forName(classPath);
 
                 // Create and return an instance of the class

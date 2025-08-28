@@ -1,12 +1,14 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.database.DatabaseConnection;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Inventory;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.Fists;
-import com.example.PIIIProjectGUI.implementation.Classes.items.weapons.abstractClasses.Weapon;
-import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
+import com.example.PIIIProjectGUI.database.CharacterDAO;
+import com.example.PIIIProjectGUI.database.InventoryDAO;
+import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
+import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
+import com.example.PIIIProjectGUI.implementation.classes.items.weapons.Fists;
+import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
+import com.example.PIIIProjectGUI.implementation.classes.player.Character;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,13 +19,7 @@ import javafx.event.ActionEvent;
 
 import com.example.PIIIProjectGUI.database.AccountsDAO;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
 
 public class LoginController {
     @FXML private TextField emailField;
@@ -44,7 +40,7 @@ public class LoginController {
 
         if (GameState.currentAccountID!=-1) { // if login succesful
             try {
-                loadNextScreen(event);
+                loginSuccesful(event);
             } catch (IOException e) {
                 e.printStackTrace();
                 messageLabel.setText("Failed to load game.");
@@ -54,7 +50,9 @@ public class LoginController {
         }
     }
 
-    private void loadNextScreen(ActionEvent event) throws IOException {
+    private void loginSuccesful(ActionEvent event) throws IOException {
+        OutputDevice.printMessage("!Logged In Successfully!");
+
         // Handle program arguments
         //      You can pass arguments to the program, such that you enter the game with a cheater run
         //  or with a normal run. [ "cheatMode" - cheat run, "default" - normal run   ]
@@ -71,7 +69,9 @@ public class LoginController {
             }
             else
             {
-                // Not a new game. No new Character Creation Needed. So go to Main Manu Page Directly.
+                // Load the saved data before entering the main menu
+                GameState.loadSavedData();
+                // Not a new game. No new Character Creation Needed. Instead, we fetched all saved data, and move to main menu screen.
                 loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
             }
         }
@@ -84,7 +84,12 @@ public class LoginController {
             GameState.character = new Character("Cheater", 999, 999, 999, fists);
             GameState.inventory = new Inventory(GameState.character);
             GameState.inventory.inventoryController.addItemToInventory(fists);
-            GameState.exploration = new Explore(GameState.character, GameState.inventory.inventoryController);
+            GameState.explore = new Explore(GameState.character, GameState.inventory.inventoryController);
+
+            int characterID = CharacterDAO.insertNewCharacterToTable(GameState.currentAccountID);
+            GameState.character.characterID = characterID;
+            OutputDevice.printMessage("Character has local ID " +  characterID);
+
             // Transition to Main Menu Screen
             loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
         }

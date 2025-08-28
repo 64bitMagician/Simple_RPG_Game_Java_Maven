@@ -1,6 +1,8 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.database.AccountsDAO;
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.google.protobuf.ByteString;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,6 +45,8 @@ public class RegisterController {
 
         if(registrationStatusMessage.equals("Registration Successful!"))
         {
+            OutputDevice.printMessage("!Account Registered Successfully!");
+
             messageLabel.setStyle("-fx-text-fill: green");
             messageLabel.setText("Registration successful!");
             // Clear fields

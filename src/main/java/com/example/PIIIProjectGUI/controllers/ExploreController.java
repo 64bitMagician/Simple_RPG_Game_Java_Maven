@@ -1,11 +1,12 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.PotionChest;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.WeaponChest;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.loot.abstractClasses.LootableArea;
-import com.example.PIIIProjectGUI.implementation.Classes.gameState.Explore;
-import com.example.PIIIProjectGUI.implementation.Classes.livingEntities.hostile.abstractClasses.Enemy;
+import com.example.PIIIProjectGUI.database.AccountsDAO;
+import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.PotionChest;
+import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.WeaponChest;
+import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.abstractClasses.LootableArea;
+import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
+import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-import com.example.PIIIProjectGUI.implementation.Classes.player.Character;
-import com.example.PIIIProjectGUI.implementation.Classes.encounters.fights.abstractclasses.ThreadedBattle;
+import com.example.PIIIProjectGUI.implementation.classes.player.Character;
+import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.abstractclasses.ThreadedBattle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ExploreController {
     static private List<EnemyUI> enemiesUI = new ArrayList<>();
     static private EnemyUI selectedEnemy;
 
-    static private Explore explore = GameState.exploration;
+    static private Explore explore = GameState.explore;
     static private ThreadedBattle battle;
 
     static private CharacterUI characterUI;
@@ -72,13 +73,15 @@ public class ExploreController {
         if (explore.runStageCounter == explore.runTotalStages)
         {
             explore.showVictoryScreen();
+            // Victory, thus reset all game progress for this account
+            GameState.gameProgressReset();
             return;
         }
         if(explore.runPattern[explore.runStageCounter]==0) // Encounter a lootable area
         {
             OutputDevice.printMessage("!YOU FOUND A CHEST!");
             LootableArea randomLootableArea;
-            if(Math.random() < 0.7)
+            if(Math.random() < 0.5)
             {
                 randomLootableArea = new WeaponChest(explore.inventoryController);
             }
@@ -99,9 +102,7 @@ public class ExploreController {
             enemies = battle.enemyArmy;
             enemiesUI.clear(); // reset the enemiesUI
             explore.loadBattleScreen();
-            explore.battleCounter++;
         }
-        explore.runStageCounter++;
     }
 
     public void drawBattle() {
