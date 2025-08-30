@@ -3,14 +3,18 @@ package com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstract
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 
 public abstract class Weapon implements Item, Comparable<Weapon> {
-    protected enum WeaponRarityColors {GREEN,BLUE,RED,ORANGE}
+    public enum WeaponRarityColors {GREEN,BLUE,RED,ORANGE}
 
     //DATA
     protected String weaponName;
-    protected double weight;
+    protected float weight;
     protected int weaponItemQuality;
     public float weaponDamage;
-    protected WeaponRarityColors color;
+    public WeaponRarityColors color;
+
+    public int getWeaponItemQuality(){
+        return weaponItemQuality;
+    }
 
     @Override
     public int compareTo(Weapon other) {
@@ -38,17 +42,17 @@ public abstract class Weapon implements Item, Comparable<Weapon> {
     }
 
     @Override
-    public double getItemWeight() {
+    public float getItemWeight() {
         return weight;
     }
 
     @Override
     public String getItemRarityColor() {
         switch (color) {
-            case GREEN -> { return "green"; }
-            case BLUE -> { return "blue"; }
-            case RED -> { return "red"; }
-            case ORANGE -> { return "orange"; }
+            case GREEN -> { return "GREEN"; }
+            case BLUE -> { return "BLUE"; }
+            case RED -> { return "RED"; }
+            case ORANGE -> { return "ORANGE"; }
         }
         return "grey";
     }

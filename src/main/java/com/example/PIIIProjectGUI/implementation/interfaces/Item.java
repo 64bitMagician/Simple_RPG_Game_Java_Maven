@@ -6,7 +6,7 @@ public interface Item {
 
     String getItemDescription();
 
-    double getItemWeight();
+    float getItemWeight();
 
     String getItemInformation();
 

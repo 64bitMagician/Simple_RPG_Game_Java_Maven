@@ -15,7 +15,7 @@ public class CharacterTest {
             this.weaponName = name;
             this.weaponDamage = damage;
             this.weaponItemQuality = 1;
-            this.weight = 5;
+            this.weight = 5.0f;
             this.color = WeaponRarityColors.GREEN;
         }
 
@@ -31,7 +31,7 @@ public class CharacterTest {
         public TestPotion(){
             this.potionName = "TestPotion";
             this.potionItemQuality = 1;
-            this.weight = 2;
+            this.weight = 2.0f;
             this.color = PotionRarityColors.GREEN;
         }
 
@@ -57,8 +57,9 @@ public class CharacterTest {
         assertEquals(100, c.health);
         assertEquals(150, c.totalHealth);
         assertTrue(c.alive);
-        assertEquals(sword, c.equippedWeapon);
+        assertEquals(2.0f, c.damageMultiplier);
         assertEquals(40, c.totalDamage); // 20 * 2.0
+        assertEquals(sword, c.equippedWeapon);
     }
 
     @Test
@@ -70,7 +71,10 @@ public class CharacterTest {
         assertEquals(original.name, copy.name);
         assertEquals(original.health, copy.health);
         assertEquals(original.totalHealth, copy.totalHealth);
+        assertTrue(copy.alive);
         assertEquals(original.damageMultiplier, copy.damageMultiplier);
+        assertEquals(original.totalDamage, copy.totalDamage);
+        assertEquals(original.equippedWeapon, copy.equippedWeapon);
     }
 
     // --- Functionality Tests ---

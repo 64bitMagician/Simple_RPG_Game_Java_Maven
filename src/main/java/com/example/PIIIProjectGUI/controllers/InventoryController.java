@@ -75,10 +75,10 @@ public class InventoryController {
 
     static private int getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(Item itemInstance, int numberOfItemInstances)
     {
-        double itemInstanceWeight = itemInstance.getItemWeight();
-        double totalWeightOfItemInstances = itemInstanceWeight*numberOfItemInstances;
+        float itemInstanceWeight = itemInstance.getItemWeight();
+        float totalWeightOfItemInstances = itemInstanceWeight*numberOfItemInstances;
 
-        double maxPossibleInventoryCapacity = inventory.currentWeightCapacity + totalWeightOfItemInstances;
+        float maxPossibleInventoryCapacity = inventory.currentWeightCapacity + totalWeightOfItemInstances;
         int maxNumberOfInstancesYouCanAdd = numberOfItemInstances;
 
         while(maxPossibleInventoryCapacity > inventory.totalWeightCapacity)
@@ -101,7 +101,7 @@ public class InventoryController {
     static private boolean stackItemToInventory(Item item, int itemInstancesToStack){
         float inentoryCurrentWeightCapacity = inventory.currentWeightCapacity;
         float inventoryTotalWeightCapacity = inventory.totalWeightCapacity;
-        double totalItemAndCountPairWeightCapacity = item.getItemWeight()*itemInstancesToStack;
+        float totalItemAndCountPairWeightCapacity = item.getItemWeight()*itemInstancesToStack;
 
         //Check if he item already appears in your inventory, so you can stack it
         //trebuie referinta sau doar clasa
@@ -177,7 +177,7 @@ public class InventoryController {
 
     static public void addItemToInventory(ItemAndCountPair itemAndCountPair){
         // get Items Weight. How many instances * weight of an instance
-        double totalItemAndCountPairWeight = itemAndCountPair.value * itemAndCountPair.key.getItemWeight();
+        float totalItemAndCountPairWeight = itemAndCountPair.value * itemAndCountPair.key.getItemWeight();
         if (inventory.currentWeightCapacity + totalItemAndCountPairWeight > inventory.totalWeightCapacity) {
             OutputDevice.printMessage("Cannot add this many items to your inventory. It would exceed the total weight capacity. Current weight capacity: " + inventory.currentWeightCapacity + "/" + inventory.totalWeightCapacity + ".");
             return;
