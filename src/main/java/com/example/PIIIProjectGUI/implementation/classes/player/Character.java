@@ -120,7 +120,7 @@ public class Character implements LivingEntity {
 
             try {
                 // Load "You Died" FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/youDied-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/youDied-view.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage deathStage = new Stage();
                 deathStage.setTitle("Game Over");

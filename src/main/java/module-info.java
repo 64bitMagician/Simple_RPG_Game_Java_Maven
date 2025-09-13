@@ -8,6 +8,8 @@ module com.example.PIIIProjectGUI {
 
     opens com.example.PIIIProjectGUI to javafx.fxml;
     opens com.example.PIIIProjectGUI.controllers to javafx.fxml;
+    opens com.example.PIIIProjectGUI.implementation.classes.database to javafx.base, javafx.fxml;
+
 
     exports com.example.PIIIProjectGUI.controllers;
     exports com.example.PIIIProjectGUI;

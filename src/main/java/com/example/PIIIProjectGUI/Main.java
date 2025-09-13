@@ -15,7 +15,7 @@ public class Main extends Application {
         // Store args globally
         GameState.args = args;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/login-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/login-view.fxml"));
         Scene scene = new Scene(loader.load(), 400, 300);
         stage.setTitle("User Registration");
         stage.setScene(scene);

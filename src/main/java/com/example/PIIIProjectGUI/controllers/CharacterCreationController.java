@@ -63,7 +63,7 @@ public class CharacterCreationController {
             GameState.markAccountAsNonNewGame();
 
             // Transition to Main Menu Screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/main-menu.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.setScene(scene);

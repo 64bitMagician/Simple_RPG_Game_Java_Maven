@@ -55,7 +55,7 @@ public class Explore {
 
             try {
                 // Load "Victory" FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/victory.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/victory.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage victoryStage = new Stage();
                 victoryStage.setTitle("Victory!");
@@ -83,7 +83,7 @@ public class Explore {
         ExploreController.setStage(stage);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/battle-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/battle-view.fxml"));
             Parent root = loader.load();
 
             ExploreController controller = loader.getController();
@@ -107,7 +107,7 @@ public class Explore {
         LootScreenController.setStage(stage);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/loot-screen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/loot-screen.fxml"));
             Parent root = loader.load();
 
             LootScreenController controller = loader.getController();

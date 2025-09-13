@@ -1,7 +1,6 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.database.AccountsDAO;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.PotionChest;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.WeaponChest;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.abstractClasses.LootableArea;
@@ -123,7 +122,7 @@ public class ExploreController {
     @FXML
     private void handleOpenInventory() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/inventory-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/inventory-view.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();  // Or reuse the current one if preferred
             stage.setScene(scene);

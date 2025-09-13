@@ -2,7 +2,6 @@ package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.database.CharacterDAO;
-import com.example.PIIIProjectGUI.database.InventoryDAO;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.Fists;
@@ -37,6 +36,8 @@ public class LoginController {
         }
 
         GameState.currentAccountID = AccountsDAO.login(email, password);
+        GameState.currentAccountRole = AccountsDAO.getRole(GameState.currentAccountID);
+
 
         if (GameState.currentAccountID!=-1) { // if login succesful
             try {
@@ -51,7 +52,7 @@ public class LoginController {
     }
 
     private void loginSuccesful(ActionEvent event) throws IOException {
-        OutputDevice.printMessage("!Logged In Successfully!");
+        OutputDevice.printSuccess("!Logged In Successfully!");
 
         // Handle program arguments
         //      You can pass arguments to the program, such that you enter the game with a cheater run
@@ -59,43 +60,55 @@ public class LoginController {
 
         FXMLLoader loader = null;
 
-        //  Character Creation
-        if(GameState.args.length==0 || GameState.args[0].equals("default")) // if default mode of the game
+        //  Transition to according screen based on Role
+        if (GameState.currentAccountRole.equals("user")) // If user account
         {
-            if (AccountsDAO.checkIfNewGame(GameState.currentAccountID))
+            if(GameState.args.length==0 || GameState.args[0].equals("default")) // if default mode of the game
             {
-                // Transition to Character Creation Screen
-                loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/character-creation-view.fxml"));
+                if (AccountsDAO.checkifnewgame(GameState.currentAccountID))
+                {
+                    // Transition to Character Creation Screen
+                    loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/character-creation-view.fxml"));
+                }
+                else
+                {
+                    // Load the saved data before entering the main menu
+                    GameState.loadSavedData();
+                    // Not a new game. No new Character Creation Needed. Instead, we fetched all saved data, and move to main menu screen.
+                    loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/main-menu.fxml"));
+                }
+            }
+            else if(GameState.args[0].equals("cheatMode")) // if in cheatMode Program Argument.
+            {
+                // Don't matter the account. It will ignore the account associated and simply always start new game with New Cheating Character.
+
+                //Character, inventory and exploration initialization
+                Weapon fists = new Fists();
+                GameState.character = new Character("Cheater", 999, 999, 999, fists);
+                GameState.inventory = new Inventory(GameState.character);
+                GameState.inventory.inventoryController.addItemToInventory(fists);
+                GameState.explore = new Explore(GameState.character, GameState.inventory.inventoryController);
+
+                int characterID = CharacterDAO.insertNewCharacterToTable(GameState.currentAccountID);
+                GameState.character.characterID = characterID;
+                OutputDevice.printInfo("Character has local ID " +  characterID);
+
+                // Transition to Main Menu Screen
+                loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/main-menu.fxml"));
             }
             else
             {
-                // Load the saved data before entering the main menu
-                GameState.loadSavedData();
-                // Not a new game. No new Character Creation Needed. Instead, we fetched all saved data, and move to main menu screen.
-                loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
+                System.out.println("Invalid Program Arguments");
+                System.exit(0);
             }
         }
-        else if(GameState.args[0].equals("cheatMode")) // if in cheatMode Program Argument.
+        else if (GameState.currentAccountRole.equals("accounts_administrator")) // If account_administrator account
         {
-            // Don't matter the account. It will ignore the account associated and simply always start new game with New Cheating Character.
-
-            //Character, inventory and exploration initialization
-            Weapon fists = new Fists();
-            GameState.character = new Character("Cheater", 999, 999, 999, fists);
-            GameState.inventory = new Inventory(GameState.character);
-            GameState.inventory.inventoryController.addItemToInventory(fists);
-            GameState.explore = new Explore(GameState.character, GameState.inventory.inventoryController);
-
-            int characterID = CharacterDAO.insertNewCharacterToTable(GameState.currentAccountID);
-            GameState.character.characterID = characterID;
-            OutputDevice.printMessage("Character has local ID " +  characterID);
-
-            // Transition to Main Menu Screen
-            loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/main-menu.fxml"));
+            loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/accounts_admin_screen.fxml"));
         }
-        else {
-            System.out.println("Invalid Program Arguments");
-            System.exit(0);
+        else // Something is wrong with the role of the account
+        {
+            OutputDevice.printError("The role of account is neither 'user' nor 'account_administrator', thus is invalid\nCurrent Role: " + GameState.currentAccountRole);
         }
 
         Scene scene = new Scene(loader.load());
@@ -106,7 +119,7 @@ public class LoginController {
 
     @FXML
     private void switchToRegister(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/register-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/register-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);

@@ -49,4 +49,18 @@ public class StringUtilities {
         // Convert the list of lines to an array and return it
         return lines.toArray(new String[0]);
     }
+
+    /**
+     * Returns the name of the FXML file without the ".fxml" extension.
+     * If the string does not end with ".fxml", returns the original string.
+     *
+     * @param fileName The input string
+     * @return The string without ".fxml" if it ends with it, else the original string
+     */
+    public static String stripFXMLExtension(String fileName) {
+        if (fileName != null && fileName.endsWith(".fxml")) {
+            return fileName.substring(0, fileName.length() - 5); // remove ".fxml"
+        }
+        return fileName;
+    }
 }

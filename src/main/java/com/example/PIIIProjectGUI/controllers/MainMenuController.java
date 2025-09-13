@@ -15,7 +15,7 @@ public class MainMenuController {
     @FXML
     public void onInventory(ActionEvent e) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/inventory-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/inventory-view.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();  // Or reuse the current one if preferred
             stage.setScene(scene);
@@ -37,7 +37,7 @@ public class MainMenuController {
     @FXML
     public void onShowStats(ActionEvent e) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/playerStats-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/playerStats-view.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setTitle("Player Stats");

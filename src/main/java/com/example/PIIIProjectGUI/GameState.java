@@ -6,7 +6,6 @@ import com.example.PIIIProjectGUI.database.InventoryDAO;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
-import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 
@@ -17,14 +16,16 @@ public class GameState {
     public static Character character;
     public static Inventory inventory;
     public static Explore explore;
+
     public static int currentAccountID;
+    public static String currentAccountRole;
 
     private GameState() {} // it will be used as a single instance object (singleton), through static data and methods
 
     // Mark account as not "new_game".
     public static void markAccountAsNonNewGame(){
         // Check for new_game field update
-        if (AccountsDAO.checkIfNewGame(currentAccountID)) // If new game, update accounts table such that new_game field is false
+        if (AccountsDAO.checkifnewgame(currentAccountID)) // If new game, update accounts table such that new_game field is false
         {
             AccountsDAO.updateNewGameFieldToArgumentValue(currentAccountID, false);
         }
