@@ -9,6 +9,7 @@ import com.example.PIIIProjectGUI.implementation.classes.items.potions.abstractC
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.interfaces.LivingEntity;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import javafx.animation.PauseTransition;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -109,33 +111,12 @@ public class Character implements LivingEntity {
 
         GameState.gameProgressReset();
 
-        javafx.application.Platform.runLater(() -> {
-            // Close all current stages
-            for (Window window : new ArrayList<>(Window.getWindows())) {
-                if (window instanceof Stage) {
-                    ((Stage) window).close();
-                }
-            }
+        ViewNavigator.replaceAllStageWindowsWithASingleOne("youDied-view.fxml", "Victory");
 
-
-            try {
-                // Load "You Died" FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/youDied-view.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage deathStage = new Stage();
-                deathStage.setTitle("Game Over");
-                deathStage.setScene(scene);
-                deathStage.show();
-
-                // Pause for 3 seconds before exiting
-                PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                delay.setOnFinished(e -> System.exit(0));
-                delay.play();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        // Pause for 3 seconds before exiting
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> System.exit(0));
+        delay.play();
     }
 
 }

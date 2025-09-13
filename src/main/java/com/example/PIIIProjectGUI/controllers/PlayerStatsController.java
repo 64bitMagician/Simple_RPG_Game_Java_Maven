@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -34,7 +35,6 @@ public class PlayerStatsController {
 
     @FXML
     private void onClose() {
-        Stage stage = (Stage) nameLabel.getScene().getWindow();
-        stage.close();
+        ViewNavigator.switchScene("main-menu.fxml");
     }
 }

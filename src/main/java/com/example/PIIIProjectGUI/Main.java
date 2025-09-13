@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI;
 
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,11 +16,7 @@ public class Main extends Application {
         // Store args globally
         GameState.args = args;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/login-view.fxml"));
-        Scene scene = new Scene(loader.load(), 400, 300);
-        stage.setTitle("User Registration");
-        stage.setScene(scene);
-        stage.show();
+        ViewNavigator.openNewWindow("login-view.fxml", "Login");
     }
 
 

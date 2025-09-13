@@ -6,6 +6,7 @@ import com.example.PIIIProjectGUI.controllers.LootScreenController;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -43,88 +44,40 @@ public class Explore {
     }
 
     public void showVictoryScreen() {
-        Platform.runLater(() -> {
-            // Close all current stages
+        ViewNavigator.replaceAllStageWindowsWithASingleOne("victory.fxml","Victory Screen");
 
-            var windowsCopy = new ArrayList<>(javafx.stage.Window.getWindows());
-            for (var window : windowsCopy) {
-                if (window instanceof Stage) {
-                    ((Stage) window).close();
-                }
-            }
-
-            try {
-                // Load "Victory" FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/victory.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage victoryStage = new Stage();
-                victoryStage.setTitle("Victory!");
-                victoryStage.setScene(scene);
-                victoryStage.show();
-
-                // Pause for 3 seconds before exiting
-                PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                delay.setOnFinished(e -> System.exit(0));
-                delay.play();
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        // Pause for 3 seconds before exiting
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> System.exit(0));
+        delay.play();
     }
 
     public void run(Character character){
         ExploreController.run(character);
     }
 
-    public ExploreController loadBattleScreen() {
-        Stage stage = new Stage();
-        ExploreController.setStage(stage);
-
+    public void loadBattleScreen() {
+        // First get the ExploreController instance to configure the data of living entities, so they can be shown on screen
+        // We do that through the drawBattle() method created within ExploreController
+        // We get the ExploreController instance through the battle-view.fxml file, since that file is connected to our controller
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/battle-view.fxml"));
+        ExploreController controller = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/battle-view.fxml"));
             Parent root = loader.load();
-
-            ExploreController controller = loader.getController();
-            controller.drawBattle(); // draw initially
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Battle!");
+            controller = loader.getController();
+            controller.drawBattle(); // draw initially (initialize the data of living entities before drawing them to screen)
+            Stage stage = ViewNavigator.getTopStage();
+            stage.setScene(new Scene(root));
             stage.show();
-
-            return controller;
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            e.printStackTrace(); // or your OutputDevice.printError(e.getMessage());
         }
     }
 
-    public LootScreenController loadLootScreen()
+    public void loadLootScreen()
     {
-        Stage stage = new Stage();
-        LootScreenController.setStage(stage);
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/loot-screen.fxml"));
-            Parent root = loader.load();
-
-            LootScreenController controller = loader.getController();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Loot!");
-            stage.show();
-
-            return controller;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        ViewNavigator.switchScene("loot-screen.fxml");
     }
-
-
 
     // Private Methods
 

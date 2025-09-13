@@ -7,6 +7,7 @@ import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.abstrac
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
 import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -121,20 +122,7 @@ public class ExploreController {
 
     @FXML
     private void handleOpenInventory() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/inventory-view.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();  // Or reuse the current one if preferred
-            stage.setScene(scene);
-            stage.setTitle("Inventory");
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Optionally show an error dialog to the user
-            // showErrorDialog("Failed to load inventory screen.");
-        }
-        log("Opening inventory...");
-        // You can use a scene switcher here
+        ViewNavigator.openNewWindow("inventory-view.fxml","Inventory");
     }
 
     @FXML

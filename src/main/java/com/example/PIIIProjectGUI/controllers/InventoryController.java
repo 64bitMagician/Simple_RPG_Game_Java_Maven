@@ -8,6 +8,7 @@ import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 import com.example.PIIIProjectGUI.implementation.classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import com.example.PIIIProjectGUI.utilities.yesNoQuery;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -304,7 +305,7 @@ public class InventoryController {
                     inventory.character.drinkPotion(potion);
                     OutputDevice.printMessage(potion.getItemName() + " used.");
                     updateDisplay(inventory.items);
-
+                    ExploreController.updateAllUI();
                 }
             }
         });
@@ -331,7 +332,15 @@ public class InventoryController {
 
     @FXML
     private void handleExit() {
-        Stage stage = (Stage) itemsContainer.getScene().getWindow();
-        stage.close();  // Or navigate back to previous screen
+        int numberOfStagesInStack = ViewNavigator.getNumberOfStagesInStack();
+
+        if (numberOfStagesInStack == 1)
+        {
+            ViewNavigator.switchScene("main-menu.fxml");
+        }
+        else if (numberOfStagesInStack == 2)
+        {
+            ViewNavigator.closeTopStage();
+        }
     }
 }

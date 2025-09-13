@@ -9,6 +9,7 @@ import com.example.PIIIProjectGUI.implementation.interfaces.BattleInterface;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.threads.EnemyAtackThread;
 import com.example.PIIIProjectGUI.threads.CharacterAtackThread;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -30,7 +31,6 @@ public abstract class ThreadedBattle implements BattleInterface {
 
     @Override
     public void run() {
-
         if(ongoingBattle.get()) // IF the battle is up and running
         {
             characterAttacks();
@@ -107,10 +107,7 @@ public abstract class ThreadedBattle implements BattleInterface {
                 if (response == continueButton) {
 
                     // Now close the actual battle stage
-                    Stage battleStage = ExploreController.getStage(); // expose this getter
-                    if (battleStage != null) {
-                        battleStage.close();
-                    }
+                    ViewNavigator.switchScene("main-menu.fxml");
                 }
             });
         });

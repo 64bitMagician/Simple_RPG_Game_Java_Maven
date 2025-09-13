@@ -2,6 +2,7 @@ package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.database.AccountsDAO;
 import com.example.PIIIProjectGUI.implementation.classes.database.Account;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class AccountsAdminController {
 
         // Logout Button
         logoutButton.setOnAction(e -> {
-
+            ViewNavigator.replaceAllStageWindowsWithASingleOne("login-view.fxml","Login View");
         });
     }
 

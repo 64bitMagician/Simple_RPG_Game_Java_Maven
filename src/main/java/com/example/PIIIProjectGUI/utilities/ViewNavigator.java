@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.utilities;
 
+import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,11 +11,18 @@ import java.util.Stack;
 
 public class ViewNavigator {
 
+    static private String viewsStringPath = "/com/example/PIIIProjectGUI/views/";
+
     // Stack to keep track of open stages
     private static final Stack<Stage> stageStack = new Stack<>();
 
     private ViewNavigator() {
         // Prevent instantiation
+    }
+
+    public static int getNumberOfStagesInStack()
+    {
+        return stageStack.toArray().length;
     }
 
     /**
@@ -24,7 +32,7 @@ public class ViewNavigator {
         fxmlFileName = StringUtilities.stripFXMLExtension(fxmlFileName) + ".fxml";
 
         try {
-            Parent root = FXMLLoader.load(ViewNavigator.class.getResource("com/example/PIIIProjectGUI/veiws/" + ));
+            Parent root = FXMLLoader.load(ViewNavigator.class.getResource( viewsStringPath + fxmlFileName));
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));
@@ -40,10 +48,11 @@ public class ViewNavigator {
         }
     }
 
-    /**
-     * Switch scene on the topmost stage.
-     */
-    public static void switchScene(String fxmlPath) {
+    // Switch scene on the topmost stage.
+    public static void switchScene(String fxmlFileName) {
+        fxmlFileName = StringUtilities.stripFXMLExtension(fxmlFileName) + ".fxml";
+        String fxmlPath = viewsStringPath + fxmlFileName;
+
         if (!stageStack.isEmpty()) {
             Stage currentStage = stageStack.peek();
             try {
@@ -54,16 +63,21 @@ public class ViewNavigator {
                 e.printStackTrace();
             }
         }
+        else
+        {
+            OutputDevice.printError("You used the ViewNavigator.switchScene() method, but there is no stage for a scene to be replaced.");
+        }
     }
 
-    /**
-     * Close the topmost stage and return to the previous one (if any).
-     */
+    // Close the topmost stage and return to the previous one (if any).
     public static void closeTopStage() {
         if (!stageStack.isEmpty()) {
             Stage topStage = stageStack.pop();
             topStage.close();
         }
+        else
+            OutputDevice.printError("You used closeTopStage method but stageStack is empty, nothing to close.");
+
     }
 
     /**
@@ -71,5 +85,33 @@ public class ViewNavigator {
      */
     public static Stage getTopStage() {
         return stageStack.isEmpty() ? null : stageStack.peek();
+    }
+
+    // Close all open stages and replace them with a single new stage.
+    public static void replaceAllStageWindowsWithASingleOne(String fxmlFileName, String title) {
+        String fxmlPath = viewsStringPath + StringUtilities.stripFXMLExtension(fxmlFileName) + ".fxml";
+
+        try {
+            // Close all open stages
+            while (!stageStack.isEmpty()) {
+                Stage stage = stageStack.pop();
+                stage.close();
+            }
+
+            // Open the new stage
+            Parent root = FXMLLoader.load(ViewNavigator.class.getResource(fxmlPath));
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            stageStack.push(stage);
+
+            // Remove from stack when closed
+            stage.setOnCloseRequest(event -> stageStack.remove(stage));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.database.AccountsDAO;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -40,8 +41,8 @@ public class RegisterController {
             return;
         }
 
-        if (password.isEmpty()) {
-            messageLabel.setText("Password cannot be empty.");
+        if (!isValidPassword(password)) {
+            messageLabel.setText("Password must be at least 8 characters, contain upper/lowercase letters, a number, and a special character.");
             return;
         }
 
@@ -68,13 +69,19 @@ public class RegisterController {
         }
     }
 
+    // Regex-based password validation
+    private boolean isValidPassword(String password) {
+        if (password == null) return false;
+
+        // At least 8 chars, one upper, one lower, one number, one special char
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(passwordRegex);
+    }
+
+
     @FXML
     private void switchToLogin() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/login-view.fxml"));
-
-        Scene scene = new Scene(loader.load(), 400, 300);
-        Stage stage = (Stage) emailField.getScene().getWindow();
-        stage.setScene(scene);
+        ViewNavigator.switchScene("login-view.fxml");
     }
 
 

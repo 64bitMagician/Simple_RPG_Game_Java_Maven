@@ -4,6 +4,7 @@ import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.loot.abstractClasses.LootableArea;
 import com.example.PIIIProjectGUI.implementation.interfaces.Item;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -94,14 +95,14 @@ public class LootScreenController {
         box.setPadding(new Insets(5));
         box.setStyle("-fx-background-color:#f0f0f0; -fx-border-color:gray; -fx-border-radius:5;");
 
-        // ✅ Click to take item
+        // Click to take item
         takeIcon.setOnMouseClicked(e -> {
             InventoryController.addItemToInventory(pair);
             itemContainer.getChildren().remove(box);
             showResultPopup("You took a " + item.getItemName());
         });
 
-        // ❌ Click to reject
+        // Click to reject
         rejectIcon.setOnMouseClicked(e -> {
             itemContainer.getChildren().remove(box);
             showResultPopup("You refused to take the " + item.getItemName());
@@ -121,11 +122,8 @@ public class LootScreenController {
                 GameState.explore.runStageCounter++;
                 GameState.saveGame();
 
-                // Close the popup (automatic)
-                // Close the loot screen stage
-                if (lootStage != null) {
-                    lootStage.close();
-                }
+                // Switch Back to Main Menu
+                ViewNavigator.switchScene("main-menu.fxml");
             }
         });
     }

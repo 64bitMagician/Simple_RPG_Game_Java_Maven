@@ -2,6 +2,7 @@ package com.example.PIIIProjectGUI.controllers;
 
 import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,18 +15,8 @@ public class MainMenuController {
 
     @FXML
     public void onInventory(ActionEvent e) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/inventory-view.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();  // Or reuse the current one if preferred
-            stage.setScene(scene);
-            stage.setTitle("Inventory");
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Optionally show an error dialog to the user
-            // showErrorDialog("Failed to load inventory screen.");
-        }
+        // Transition to Inventory View
+            ViewNavigator.switchScene("inventory-view.fxml");
     }
 
 
@@ -36,16 +27,7 @@ public class MainMenuController {
 
     @FXML
     public void onShowStats(ActionEvent e) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/playerStats-view.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Player Stats");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            ViewNavigator.switchScene("playerStats-view.fxml");
     }
 
     @FXML

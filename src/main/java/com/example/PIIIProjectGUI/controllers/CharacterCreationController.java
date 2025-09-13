@@ -9,6 +9,7 @@ import com.example.PIIIProjectGUI.implementation.classes.items.weapons.Fists;
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
+import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,10 +64,7 @@ public class CharacterCreationController {
             GameState.markAccountAsNonNewGame();
 
             // Transition to Main Menu Screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/PIIIProjectGUI/views/main-menu.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.setScene(scene);
+            ViewNavigator.switchScene("main-menu.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }
