@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### Secrets / local data ###
+users.txt
+.env
+*.env
+*.properties.local
+db.properties
