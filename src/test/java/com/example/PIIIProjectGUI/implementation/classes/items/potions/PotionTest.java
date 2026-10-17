@@ -64,7 +64,7 @@ public class PotionTest {
         Potion p1 = new TestPotion("Potion A", 2, 1.0f, Potion.PotionRarityColors.BLUE, 25);
         Potion p2 = new TestPotion("Potion B", 1, 1.0f, Potion.PotionRarityColors.GREEN, 10);
 
-        assertTrue(p2.compareTo(p1) > 0); // higher quality wins
+        assertTrue(p1.compareTo(p2) > 0); // higher quality wins
     }
 
     @Test

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Stack;
 
 public class ViewNavigator {
@@ -16,8 +17,28 @@ public class ViewNavigator {
     // Stack to keep track of open stages
     private static final Stack<Stage> stageStack = new Stack<>();
 
+    // Window title shown for each view (key = FXML file name without the extension)
+    private static final Map<String, String> viewTitles = Map.ofEntries(
+            Map.entry("login-view", "Login"),
+            Map.entry("register-view", "Register"),
+            Map.entry("character-creation-view", "Create Character"),
+            Map.entry("main-menu", "Main Menu"),
+            Map.entry("inventory-view", "Inventory"),
+            Map.entry("playerStats-view", "Character Stats"),
+            Map.entry("loot-screen", "Treasure Chest"),
+            Map.entry("battle-view", "Battle"),
+            Map.entry("accounts_admin_screen", "Accounts Administration"),
+            Map.entry("victory", "Victory"),
+            Map.entry("youDied-view", "You Died")
+    );
+
     private ViewNavigator() {
         // Prevent instantiation
+    }
+
+    // Returns the window title for the given view. Falls back to the game name for unknown views.
+    public static String getTitle(String fxmlFileName) {
+        return viewTitles.getOrDefault(StringUtilities.stripFXMLExtension(fxmlFileName), "Simple RPG");
     }
 
     public static int getNumberOfStagesInStack()
@@ -58,6 +79,7 @@ public class ViewNavigator {
             try {
                 Parent root = FXMLLoader.load(ViewNavigator.class.getResource(fxmlPath));
                 currentStage.setScene(new Scene(root));
+                currentStage.setTitle(getTitle(fxmlFileName));
                 currentStage.show();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -6,6 +6,53 @@ I built it as a university project. It started as a terminal game and was later 
 
 ---
 
+## Screenshots
+
+### Gameplay
+
+<table>
+  <tr>
+    <th>Battle</th>
+    <th>Treasure chest</th>
+    <th>Chest opened</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/Battle.png" alt="Battle against Mutants and Goblins, each with its own health bar" height="420"></td>
+    <td><img src="docs/screenshots/ExploreFoundChestUnopened.png" alt="A closed treasure chest found while exploring" height="420"></td>
+    <td><img src="docs/screenshots/ExploreFoundChestOpened.png" alt="Opened chest offering a Giant Health Potion to take or refuse" height="420"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Inventory</th>
+    <th>Character stats</th>
+    <th>Main menu</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/Inventory.png" alt="Inventory with stacked items, rarity colours and the equipped weapon highlighted" width="480"></td>
+    <td><img src="docs/screenshots/CharacterStatsScreen.png" alt="Character stats: health, damage multiplier, equipped weapon and total damage"></td>
+    <td><img src="docs/screenshots/MainMenu.png" alt="Main menu with Inventory, Explore, Stats and Exit"></td>
+  </tr>
+</table>
+
+### Accounts
+
+<table>
+  <tr>
+    <th>Login</th>
+    <th>Registration</th>
+    <th>Accounts administration panel</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/LoginScreen.png" alt="Login screen"></td>
+    <td><img src="docs/screenshots/RegistrationScreen.png" alt="Registration screen with role selection"></td>
+    <td><img src="docs/screenshots/AccountsAdministratorPanel.png" alt="Admin panel listing all accounts with delete buttons" width="480"></td>
+  </tr>
+</table>
+
+---
+
 ## Features
 
 - **Accounts and roles.** Players can register and log in. Email and password rules are checked with regular expressions. Each account has a role:

@@ -18,7 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,14 +88,6 @@ public class InventoryController {
         }
 
         return maxNumberOfInstancesYouCanAdd;
-    }
-
-    static private int getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(ItemAndCountPair itemAndCountPair)
-    {
-        Item itemInstance = itemAndCountPair.key;
-        int numberOfItemInstances = itemAndCountPair.value;
-
-        return getHowManyItemInstancesYouCanAddToInventoryBasedOnWeight(itemInstance, numberOfItemInstances);
     }
 
     static private boolean stackItemToInventory(Item item, int itemInstancesToStack){
@@ -207,19 +198,6 @@ public class InventoryController {
         return inventory.items.isEmpty();
     }
 
-
-    static private void printItemWithCounting(ItemAndCountPair itemPair) {
-        OutputDevice.printMessage("-----------------------------------------------------------------------------------------------------------");
-
-        int instances = itemPair.value;
-        if(instances>1) // if the items are stacked
-        {
-            OutputDevice.printMessageWithoutNewLine("x" + instances + " ");
-        }
-        OutputDevice.printMessage(itemPair.key.getItemInformation());
-
-        OutputDevice.printMessage("-----------------------------------------------------------------------------------------------------------");
-    }
 
     static public void removeItemFromInventory(Item item) {
         int indexOfItem = retreiveIndexOfItem(item);

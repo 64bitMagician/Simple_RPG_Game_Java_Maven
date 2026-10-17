@@ -9,8 +9,6 @@ import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -18,7 +16,6 @@ import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.abstractclasses.ThreadedBattle;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,7 +154,7 @@ public class ExploreController {
             hpBar.setPrefWidth(120);
             Label nameLabel = new Label(name);
 
-            Label hpLabel = new Label((float)correspondingEnemy.health + " / " + (float)correspondingEnemy.totalHealth);
+            Label hpLabel = new Label(correspondingEnemy.health + " / " + correspondingEnemy.totalHealth);
             hpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: black;");
 
             hpStack = new StackPane(hpBar, hpLabel);
@@ -214,7 +211,7 @@ public class ExploreController {
             this.hpBar = new ProgressBar(GameState.character.health / GameState.character.totalHealth);
             hpBar.setPrefWidth(120);
             Label nameLabel = new Label(GameState.character.name);
-            hpLabel = new Label((float)GameState.character.health + " / " + (float)GameState.character.totalHealth);
+            hpLabel = new Label(GameState.character.health + " / " + GameState.character.totalHealth);
             hpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: black;");
 
             hpStack = new StackPane(hpBar, hpLabel);

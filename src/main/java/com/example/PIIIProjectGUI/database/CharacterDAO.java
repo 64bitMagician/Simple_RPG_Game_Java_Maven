@@ -1,16 +1,12 @@
 package com.example.PIIIProjectGUI.database;
 
 import java.sql.*;
-import java.util.List;
 
 import com.example.PIIIProjectGUI.GameState;
-import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Explore;
-import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
-import com.example.PIIIProjectGUI.utilities.ClassInstantiationReference;
 import com.example.PIIIProjectGUI.utilities.ItemAndCountPair;
 
 
@@ -60,7 +56,7 @@ public class CharacterDAO {
         Explore explore = GameState.explore;
 
         String sql = """
-        INSERT INTO characters 
+        INSERT INTO characters
         (account_id, name, health, total_health, alive, equipped_weapon, damage_multiplier, total_damage, battle_counter, stage_counter)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
@@ -70,12 +66,12 @@ public class CharacterDAO {
 
             stmt.setInt(1, accountID);
             stmt.setString(2, character.name);
-            stmt.setFloat(3, (float) character.health);
-            stmt.setFloat(4, (float) character.totalHealth);
+            stmt.setFloat(3, character.health);
+            stmt.setFloat(4, character.totalHealth);
             stmt.setBoolean(5, character.alive);
             stmt.setString(6, character.equippedWeapon != null ? character.equippedWeapon.getItemName() : null);
-            stmt.setFloat(7, (float) character.damageMultiplier);
-            stmt.setFloat(8, (float) character.totalDamage);
+            stmt.setFloat(7, character.damageMultiplier);
+            stmt.setFloat(8, character.totalDamage);
             stmt.setInt(9, explore.battleCounter);
             stmt.setInt(10, explore.runStageCounter);
 
@@ -118,12 +114,12 @@ public class CharacterDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, character.name);
-            stmt.setFloat(2, (float) character.health);
-            stmt.setFloat(3, (float) character.totalHealth);
+            stmt.setFloat(2, character.health);
+            stmt.setFloat(3, character.totalHealth);
             stmt.setBoolean(4, character.alive);
             stmt.setString(5, character.equippedWeapon != null ? character.equippedWeapon.getItemName() : null);
-            stmt.setFloat(6, (float) character.damageMultiplier);
-            stmt.setFloat(7, (float) character.totalDamage);
+            stmt.setFloat(6, character.damageMultiplier);
+            stmt.setFloat(7, character.totalDamage);
             stmt.setInt(8, explore.battleCounter);
             stmt.setInt(9, explore.runStageCounter);
             stmt.setInt(10, accountID);
@@ -162,8 +158,6 @@ public class CharacterDAO {
 
 
     public static void loadSavedData(int accountId) {
-        Explore explore = GameState.explore;
-
         String sql = "SELECT * FROM characters WHERE account_id = ? LIMIT 1";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -192,6 +186,7 @@ public class CharacterDAO {
                 );
 
                 GameState.character.characterID = characterID;
+                GameState.character.alive = alive;
             }
         } catch (SQLException e) {
             e.printStackTrace();

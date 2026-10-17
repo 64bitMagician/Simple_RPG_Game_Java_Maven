@@ -2,13 +2,11 @@ package com.example.PIIIProjectGUI.implementation.classes.gameState;
 
 import com.example.PIIIProjectGUI.controllers.ExploreController;
 import com.example.PIIIProjectGUI.controllers.InventoryController;
-import com.example.PIIIProjectGUI.controllers.LootScreenController;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.*;
 import com.example.PIIIProjectGUI.implementation.classes.encounters.fights.abstractclasses.ThreadedBattle;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Explore {
 
@@ -44,7 +41,7 @@ public class Explore {
     }
 
     public void showVictoryScreen() {
-        ViewNavigator.replaceAllStageWindowsWithASingleOne("victory.fxml","Victory Screen");
+        ViewNavigator.replaceAllStageWindowsWithASingleOne("victory.fxml","Victory");
 
         // Pause for 3 seconds before exiting
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
@@ -68,6 +65,7 @@ public class Explore {
             controller.drawBattle(); // draw initially (initialize the data of living entities before drawing them to screen)
             Stage stage = ViewNavigator.getTopStage();
             stage.setScene(new Scene(root));
+            stage.setTitle(ViewNavigator.getTitle("battle-view"));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace(); // or your OutputDevice.printError(e.getMessage());

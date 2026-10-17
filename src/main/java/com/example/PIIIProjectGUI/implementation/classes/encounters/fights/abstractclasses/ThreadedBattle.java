@@ -6,7 +6,6 @@ import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.implementation.interfaces.BattleInterface;
-import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.threads.EnemyAtackThread;
 import com.example.PIIIProjectGUI.threads.CharacterAtackThread;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
@@ -14,7 +13,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,6 @@ package com.example.PIIIProjectGUI.threads;
 import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.implementation.classes.livingEntities.hostile.abstractClasses.Enemy;
 import com.example.PIIIProjectGUI.implementation.classes.player.Character;
-import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

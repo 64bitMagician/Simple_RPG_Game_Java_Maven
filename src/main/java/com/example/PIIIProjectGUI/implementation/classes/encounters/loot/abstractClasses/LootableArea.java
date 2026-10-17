@@ -23,7 +23,7 @@ public abstract class LootableArea implements LootableAreaInterface {
             Boolean queryAnswer = yesNoQuery.query("Take it?");
                 if(queryAnswer)
                 {
-                    inventory.addItemToInventory(item.key);
+                    InventoryController.addItemToInventory(item.key);
                     break;
                 }
                 else if(!queryAnswer)

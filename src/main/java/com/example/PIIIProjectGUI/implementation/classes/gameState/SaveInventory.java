@@ -1,5 +1,6 @@
 package com.example.PIIIProjectGUI.implementation.classes.gameState;
 
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.exceptions.CannotSaveEmptyInventoryException;
 import com.example.PIIIProjectGUI.inputoutput.CSVOutputDevice;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
@@ -42,8 +43,8 @@ public class SaveInventory {
         List<Pair<Integer,String>> savingPotionsList = new ArrayList<>();
 
         //Retreive all weapon and potion items
-        weaponList = inventory.inventoryController.returnAllWeaponsFromInventory();
-        potionList = inventory.inventoryController.returnAllPotionsFromInventory();
+        weaponList = InventoryController.returnAllWeaponsFromInventory();
+        potionList = InventoryController.returnAllPotionsFromInventory();
 
         //Exception for when the inventory is empty. Thus there is nothing to be saved.
         if(weaponList.isEmpty() && potionList.isEmpty()){

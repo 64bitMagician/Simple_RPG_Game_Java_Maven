@@ -4,7 +4,6 @@ import com.example.PIIIProjectGUI.GameState;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 public class PlayerStatsController {
 

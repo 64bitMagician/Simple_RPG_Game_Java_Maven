@@ -1,6 +1,7 @@
 package com.example.PIIIProjectGUI.database;
 
 import com.example.PIIIProjectGUI.GameState;
+import com.example.PIIIProjectGUI.controllers.InventoryController;
 import com.example.PIIIProjectGUI.implementation.classes.gameState.Inventory;
 import com.example.PIIIProjectGUI.implementation.classes.items.potions.abstractClasses.Potion;
 import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractClasses.Weapon;
@@ -128,7 +129,7 @@ public class InventoryDAO {
                         itemInstance = ClassInstantiationReference.createPotionInstance(itemName);
                     }
 
-                    GameState.inventory.inventoryController.addItemToInventory(itemInstance);
+                    InventoryController.addItemToInventory(itemInstance);
                 }
             }
         } catch (SQLException e) {

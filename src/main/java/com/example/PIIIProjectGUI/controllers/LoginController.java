@@ -10,16 +10,11 @@ import com.example.PIIIProjectGUI.implementation.classes.player.Character;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import com.example.PIIIProjectGUI.database.AccountsDAO;
 
-import javax.swing.text.View;
 import java.io.IOException;
 
 public class LoginController {
@@ -60,8 +55,6 @@ public class LoginController {
         //      You can pass arguments to the program, such that you enter the game with a cheater run
         //  or with a normal run. [ "cheatMode" - cheat run, "default" - normal run   ]
 
-        FXMLLoader loader = null;
-
         //  Transition to according screen based on Role
         if (GameState.currentAccountRole.equals("user")) // If user account
         {
@@ -88,7 +81,7 @@ public class LoginController {
                 Weapon fists = new Fists();
                 GameState.character = new Character("Cheater", 999, 999, 999, fists);
                 GameState.inventory = new Inventory(GameState.character);
-                GameState.inventory.inventoryController.addItemToInventory(fists);
+                InventoryController.addItemToInventory(fists);
                 GameState.explore = new Explore(GameState.character, GameState.inventory.inventoryController);
 
                 int characterID = CharacterDAO.insertNewCharacterToTable(GameState.currentAccountID);

@@ -16,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -29,14 +28,8 @@ public class LootScreenController {
     private boolean opened = false;
     private static LootableArea lootableArea;
 
-    private static Stage lootStage;
-
     public static void setLootableArea(LootableArea givenLootableArea) {
         lootableArea = givenLootableArea;
-    }
-
-    public static void setStage(Stage stage) {
-        lootStage = stage;
     }
 
     @FXML

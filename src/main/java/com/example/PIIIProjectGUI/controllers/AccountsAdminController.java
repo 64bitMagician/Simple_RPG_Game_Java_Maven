@@ -40,7 +40,7 @@ public class AccountsAdminController {
 
         // Logout Button
         logoutButton.setOnAction(e -> {
-            ViewNavigator.replaceAllStageWindowsWithASingleOne("login-view.fxml","Login View");
+            ViewNavigator.replaceAllStageWindowsWithASingleOne("login-view.fxml","Login");
         });
     }
 

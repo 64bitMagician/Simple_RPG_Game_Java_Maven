@@ -12,10 +12,7 @@ import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class CharacterCreationController {
 
@@ -37,8 +34,8 @@ public class CharacterCreationController {
         GameState.explore = new Explore(GameState.character, GameState.inventory.inventoryController);
 
         OutputDevice.printMessage("Adding Starting Weapons...");
-        GameState.inventory.inventoryController.addItemToInventory(fists);
-        GameState.inventory.inventoryController.addItemToInventory(startingWeapon);
+        InventoryController.addItemToInventory(fists);
+        InventoryController.addItemToInventory(startingWeapon);
 
         int characterID = CharacterDAO.insertNewCharacterToTable(GameState.currentAccountID);
         GameState.character.characterID = characterID;

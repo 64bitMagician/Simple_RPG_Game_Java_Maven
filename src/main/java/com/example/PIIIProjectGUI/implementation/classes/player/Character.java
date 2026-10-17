@@ -10,17 +10,10 @@ import com.example.PIIIProjectGUI.implementation.classes.items.weapons.abstractC
 import com.example.PIIIProjectGUI.implementation.interfaces.LivingEntity;
 import com.example.PIIIProjectGUI.inputoutput.OutputDevice;
 import com.example.PIIIProjectGUI.utilities.ViewNavigator;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import javafx.animation.PauseTransition;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
-import javax.swing.text.View;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Character implements LivingEntity {
     public int characterID;
@@ -48,13 +41,13 @@ public class Character implements LivingEntity {
 
     //Copy Constructor
     public Character(Character other) {
-        this.characterID = characterID;
-        this.name = name;
-        this.health = health;
-        this.totalHealth = totalHealth;
+        this.characterID = other.characterID;
+        this.name = other.name;
+        this.health = other.health;
+        this.totalHealth = other.totalHealth;
         this.alive = true;
-        this.equippedWeapon = equippedWeapon;
-        this.damageMultiplier = damageMultiplier;
+        this.equippedWeapon = other.equippedWeapon;
+        this.damageMultiplier = other.damageMultiplier;
         if (equippedWeapon!=null)
             this.totalDamage = equippedWeapon.weaponDamage*damageMultiplier;
         else
@@ -111,7 +104,7 @@ public class Character implements LivingEntity {
 
         GameState.gameProgressReset();
 
-        ViewNavigator.replaceAllStageWindowsWithASingleOne("youDied-view.fxml", "Victory");
+        ViewNavigator.replaceAllStageWindowsWithASingleOne("youDied-view.fxml", "You Died");
 
         // Pause for 3 seconds before exiting
         PauseTransition delay = new PauseTransition(Duration.seconds(3));

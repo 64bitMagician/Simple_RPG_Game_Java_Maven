@@ -7,7 +7,6 @@ public class OutputDevice {
     private static final String RED_BOLD = "\u001B[1;31m";
     private static final String GREEN_BOLD = "\u001B[1;32m";
     private static final String BLUE_BOLD = "\u001B[1;34m";
-    private static final String WHITE_BOLD = "\u001B[1;37m";
 
     // Private constructor to prevent instantiation
     private OutputDevice() {
